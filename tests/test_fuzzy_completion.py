@@ -5,7 +5,7 @@ import pytest
 @pytest.fixture
 def completer():
     import osqlcli.osqlcompleter as osqlcompleter
-    return osqlcompleter.osqlCompleter()
+    return osqlcompleter.MssqlCompleter()
 
 
 def test_ranking_ignores_identifier_quotes(completer):

@@ -197,8 +197,8 @@ class MetaData(object):
 
     def get_completer(self, settings=None, casing=None):
         metadata = self.metadata
-        from osqlcli.osqlcompleter import osqlCompleter
-        comp = osqlCompleter(smart_completion=True, settings=settings)
+        from osqlcli.osqlcompleter import MssqlCompleter
+        comp = MssqlCompleter(smart_completion=True, settings=settings)
 
         schemata, tables, tbl_cols, views, view_cols = [], [], [], [], []
 

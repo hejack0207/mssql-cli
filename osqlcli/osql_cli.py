@@ -29,9 +29,9 @@ from osqlcli.__init__ import __version__
 from osqlcli.encodingutils import utf8tounicode
 from osqlcli.encodingutils import text_type
 from osqlcli.key_bindings import osqlcli_bindings
-from osqlcli.osqlbuffer import osqlBuffer
-from osqlcli.osqlcliclient import osqlCliClient
-from osqlcli.osqlcompleter import osqlCompleter
+from osqlcli.osqlbuffer import MssqlBuffer
+from osqlcli.osqlcliclient import MssqlCliClient
+from osqlcli.osqlcompleter import MssqlCompleter
 from osqlcli.osqlstyle import style_factory
 from osqlcli.osqltoolbar import create_toolbar_tokens_func
 from osqlcli.sqltoolsclient import SqlToolsClient
@@ -86,7 +86,7 @@ def security_words_found_in(query):
         return False
 
 
-class osqlFileHistory(FileHistory):
+class MssqlFileHistory(FileHistory):
     def __init__(self, filename):
         super(self.__class__, self).__init__(filename)
 
@@ -97,7 +97,7 @@ class osqlFileHistory(FileHistory):
         super(self.__class__, self).append(string)
 
 
-class osqlCli(object):
+class MssqlCli(object):
 
     max_len_prompt = 30
     default_prompt = '\\d> '
@@ -180,7 +180,7 @@ class osqlCli(object):
             'keyword_casing': keyword_casing,
         }
 
-        self.completer = osqlCompleter(smart_completion=smart_completion, settings=self.settings)
+        self.completer = MssqlCompleter(smart_completion=smart_completion, settings=self.settings)
         self._completer_lock = threading.Lock()
 
         self.eventloop = create_eventloop()
@@ -188,7 +188,7 @@ class osqlCli(object):
         self.integrated_auth = options.integrated_auth
 
         self.sqltoolsclient = SqlToolsClient(enable_logging=options.enable_sqltoolsservice_logging)
-        self.osqlcliclient_main = osqlCliClient(options, self.sqltoolsclient)
+        self.osqlcliclient_main = MssqlCliClient(options, self.sqltoolsclient)
 
     def __del__(self):
         # Shut-down sqltoolsservice
@@ -359,7 +359,7 @@ class osqlCli(object):
         history_file = self.config['main']['history_file']
         if history_file == 'default':
             history_file = config_location() + 'history'
-        history = osqlFileHistory(os.path.expanduser(history_file))
+        history = MssqlFileHistory(os.path.expanduser(history_file))
 
         self.refresh_completions(history=history,
                                  persist_priorities='none')
@@ -396,7 +396,7 @@ class osqlCli(object):
                 self.now = dt.datetime.today()
 
                 if not query.contains_secure_statement:
-                    # Allow osqlCompleter to learn user's preferred keywords, etc.
+                    # Allow MssqlCompleter to learn user's preferred keywords, etc.
                     with self._completer_lock:
                         self.completer.extend_query_history(document.text)
 
@@ -446,7 +446,7 @@ class osqlCli(object):
             ])
 
         with self._completer_lock:
-            buf = osqlBuffer(
+            buf = MssqlBuffer(
                 auto_suggest=AutoSuggestFromHistory(),
                 always_multiline=self.multi_line,
                 multiline_mode=self.multiline_mode,

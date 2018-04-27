@@ -20,7 +20,7 @@ def generate_owner_uri():
     return u'osql-cli-' + uuid.uuid4().urn
 
 
-class osqlCliClient(object):
+class MssqlCliClient(object):
 
     def __init__(self, osqlcli_options, sql_tools_client, owner_uri=None, **kwargs):
 
@@ -51,7 +51,7 @@ class osqlCliClient(object):
 
         self.extra_params = {k: v for k, v in kwargs.items()}
 
-        logger.info(u'Initialized osqlCliClient with owner Uri {}'.format(self.owner_uri))
+        logger.info(u'Initialized MssqlCliClient with owner Uri {}'.format(self.owner_uri))
 
     def get_base_connection_params(self):
         return {u'ServerName': self.server_name,
@@ -333,4 +333,4 @@ class osqlCliClient(object):
 
     def shutdown(self):
         self.sql_tools_client.shutdown()
-        logger.info(u'Shutdown osqlCliClient')
+        logger.info(u'Shutdown MssqlCliClient')
