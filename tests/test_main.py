@@ -11,7 +11,7 @@ from osqltestutils import (
     create_osql_cli_client,
     shutdown
 )
-from osqlcli.osql_cli import OutputSettings, MssqlFileHistory
+from osqlcli.osql_cli import OutputSettings, OsqlFileHistory
 
 
 def test_history_file_not_store_credentials():
@@ -24,7 +24,7 @@ def test_history_file_not_store_credentials():
 
     with tempfile.NamedTemporaryFile(delete=False) as temp_file:
         temp_file_path = temp_file.name
-        file_history = MssqlFileHistory(temp_file_path)
+        file_history = OsqlFileHistory(temp_file_path)
 
         for statement in statements:
             file_history.append(statement)

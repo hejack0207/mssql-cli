@@ -20,7 +20,7 @@ try:
 except ImportError:
     from urllib.parse import urlparse, unquote, parse_qs
 
-from osqlcli.osql_cli import MssqlCli
+from osqlcli.osql_cli import OsqlCli
 from osqlcli.osqlclioptionsparser import create_parser
 import osqlcli.telemetry as telemetry_session
 
@@ -47,7 +47,7 @@ def run_cli_with(options):
 
     configure_and_update_options(options)
 
-    osqlcli = MssqlCli(options)
+    osqlcli = OsqlCli(options)
     osqlcli.connect_to_database()
 
     telemetry_session.set_server_information(osqlcli.osqlcliclient_main)
