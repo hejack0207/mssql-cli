@@ -7,20 +7,20 @@
 
 Python is not installed by default on Windows.  The latest Python installation package can be downloaded from [here](https://www.python.org/downloads/).  When installing, select the 'Add Python to PATH' option.  Python must be in the PATH environment variable.
 NOTE: If Python was installed into the "Program Files" directory, you may need to open the command prompt as an administrator for the above command to succeed.
-Once Python is installed and in the PATH environment variable, open a command prompt, and install mssql-cli using the below command.  
+Once Python is installed and in the PATH environment variable, open a command prompt, and install osql-cli using the below command.  
 
 ## Installation via pip
 ```shell
-C:\> pip install mssql-cli
+C:\> pip install osql-cli
 ```
 
 ## Installation with daily preview build
-Daily preview builds are dropped in our storage account. To install the latest available version of mssql-cli, use the below command:
+Daily preview builds are dropped in our storage account. To install the latest available version of osql-cli, use the below command:
 ```shell
-C:\> pip install --pre --no-cache --extra-index-url https://mssqlcli.blob.core.windows.net/daily/whl mssql-cli
+C:\> pip install --pre --no-cache --extra-index-url https://osqlcli.blob.core.windows.net/daily/whl osql-cli
 ```
 
 ## Uninstallation via pip
 ```shell
-C:\> pip uninstall mssql-cli
+C:\> pip uninstall osql-cli
 ```

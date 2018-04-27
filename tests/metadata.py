@@ -1,6 +1,6 @@
 from functools import partial
 from itertools import product
-from mssqlcli.packages.parseutils.meta import FunctionMetadata, ForeignKey
+from osqlcli.packages.parseutils.meta import FunctionMetadata, ForeignKey
 from prompt_toolkit.completion import Completion
 from prompt_toolkit.document import Document
 from mock import Mock
@@ -197,7 +197,7 @@ class MetaData(object):
 
     def get_completer(self, settings=None, casing=None):
         metadata = self.metadata
-        from mssqlcli.mssqlcompleter import MssqlCompleter
+        from osqlcli.osqlcompleter import MssqlCompleter
         comp = MssqlCompleter(smart_completion=True, settings=settings)
 
         schemata, tables, tbl_cols, views, view_cols = [], [], [], [], []

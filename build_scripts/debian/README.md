@@ -8,8 +8,8 @@ On a build machine (e.g. new Ubuntu 14.04 VM), run the build script.
 
 For example:
 ```
-git clone https://github.com/dbcli/mssql-cli
-cd mssql-cli
+git clone https://github.com/dbcli/osql-cli
+cd osql-cli
 build_scripts/debian/build.sh $(pwd)
 ```
 
@@ -23,7 +23,7 @@ Verification
 
 CLI_VERSION can be found in *build_scripts/debian/build.sh*
 ```
-sudo dpkg -i mssql-cli_0.10.0.dev-1_all.deb
-mssql-cli --version
-mssql-cli -h
+sudo dpkg -i osql-cli_0.10.0.dev-1_all.deb
+osql-cli --version
+osql-cli -h
 ```

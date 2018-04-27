@@ -1,7 +1,7 @@
-from mssqlcli.packages.sqlcompletion import (
+from osqlcli.packages.sqlcompletion import (
     suggest_type, Special, Database, Schema, Table, Column, View, Keyword,
     FromClauseItem, Function, Datatype, Alias, JoinCondition, Join)
-from mssqlcli.packages.parseutils.tables import TableReference
+from osqlcli.packages.parseutils.tables import TableReference
 import pytest
 
 

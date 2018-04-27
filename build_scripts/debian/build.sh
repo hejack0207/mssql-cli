@@ -29,7 +29,7 @@ working_dir=$(mktemp -d)
 
 cd $working_dir
 source_dir=$local_repo
-deb_file=$local_repo/../mssql-cli_$CLI_VERSION-${CLI_VERSION_REVISION:=1}_all.deb
+deb_file=$local_repo/../osql-cli_$CLI_VERSION-${CLI_VERSION_REVISION:=1}_all.deb
 
 # clean up old build output
 rm -rf $source_dir/debian
@@ -57,12 +57,12 @@ make install
 export CUSTOM_PYTHON=$source_dir/python_env/bin/python3
 export CUSTOM_PIP=$source_dir/python_env/bin/pip3
 
-# Build mssql-cli wheel from source.
+# Build osql-cli wheel from source.
 cd $source_dir
 $source_dir/python_env/bin/python3 $source_dir/build.py build;
 cd -
 
-# Install mssql-cli wheel.
+# Install osql-cli wheel.
 dist_dir=$source_dir/dist
 all_modules=`find $dist_dir -name "*.whl"`
 $source_dir/python_env/bin/pip3 install $all_modules
@@ -80,5 +80,5 @@ cd $source_dir
 dpkg-buildpackage -us -uc
 cp $deb_file $source_dir/../debian_output
 # Create a second copy for latest dev version to be used by homepage.
-cp $deb_file $source_dir/../debian_output/mssql-cli-dev-latest.deb
+cp $deb_file $source_dir/../debian_output/osql-cli-dev-latest.deb
 echo "The archive has also been outputted to $source_dir/../debian_output"

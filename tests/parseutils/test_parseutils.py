@@ -1,6 +1,6 @@
 import pytest
-from mssqlcli.packages.parseutils.tables import extract_tables
-from mssqlcli.packages.parseutils.utils import find_prev_keyword, is_open_quote
+from osqlcli.packages.parseutils.tables import extract_tables
+from osqlcli.packages.parseutils.utils import find_prev_keyword, is_open_quote
 
 
 def test_empty_string():

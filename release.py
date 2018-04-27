@@ -6,7 +6,7 @@ import utility
 
 AZURE_STORAGE_CONNECTION_STRING = os.environ.get(
     'AZURE_STORAGE_CONNECTION_STRING')
-BLOB_MSSQL_CLI_DAILY_CONTAINER_NAME = 'daily/whl/mssql-cli'
+BLOB_MSSQL_CLI_DAILY_CONTAINER_NAME = 'daily/whl/osql-cli'
 BLOB_CONTAINER_NAME = 'daily'
 UPLOADED_PACKAGE_LINKS = []
 
@@ -68,7 +68,7 @@ def download_official_wheels():
         Download the official wheels for each platform
     """
     assert AZURE_STORAGE_CONNECTION_STRING, 'Set AZURE_STORAGE_CONNECTION_STRING environment variable'
-    from mssqlcli import __version__ as latest_version
+    from osqlcli import __version__ as latest_version
 
     # Clear previous downloads
     utility.clean_up(utility.MSSQLCLI_DIST_DIRECTORY)
@@ -76,10 +76,10 @@ def download_official_wheels():
 
     print('Downloading official wheels with version: {}'.format(latest_version))
     blob_names = [
-        'mssql_cli-{}-py2.py3-none-macosx_10_11_intel.whl'.format(latest_version),
-        'mssql_cli-{}-py2.py3-none-manylinux1_x86_64.whl'.format(latest_version),
-        'mssql_cli-{}-py2.py3-none-win_amd64.whl'.format(latest_version),
-        'mssql_cli-{}-py2.py3-none-win32.whl'.format(latest_version)
+        'osql_cli-{}-py2.py3-none-macosx_10_11_intel.whl'.format(latest_version),
+        'osql_cli-{}-py2.py3-none-manylinux1_x86_64.whl'.format(latest_version),
+        'osql_cli-{}-py2.py3-none-win_amd64.whl'.format(latest_version),
+        'osql_cli-{}-py2.py3-none-win32.whl'.format(latest_version)
     ]
 
     blob_service = BlockBlobService(connection_string=AZURE_STORAGE_CONNECTION_STRING)
@@ -97,13 +97,13 @@ def download_official_wheels():
 
 def publish_official():
     """
-    Publish mssql-cli package to PyPi.
+    Publish osql-cli package to PyPi.
     """
-    mssqlcli_wheel_dir = os.listdir(utility.MSSQLCLI_DIST_DIRECTORY)
-    # Run twine action for mssql-cli.
+    osqlcli_wheel_dir = os.listdir(utility.MSSQLCLI_DIST_DIRECTORY)
+    # Run twine action for osql-cli.
     # Only authorized users with credentials will be able to upload this package.
     # Credentials will be stored in a .pypirc file.
-    for wheel in mssqlcli_wheel_dir:
+    for wheel in osqlcli_wheel_dir:
         utility.exec_command(
             'twine upload {}'.format(wheel),
             utility.MSSQLCLI_DIST_DIRECTORY)
@@ -111,7 +111,7 @@ def publish_official():
 
 def publish_daily():
     """
-    Publish mssql-cli package to daily storage account.
+    Publish osql-cli package to daily storage account.
     """
     print('Publishing to daily container within storage account.')
     assert AZURE_STORAGE_CONNECTION_STRING, 'Set AZURE_STORAGE_CONNECTION_STRING environment variable'
@@ -123,9 +123,9 @@ def publish_daily():
     for pkg in os.listdir(utility.MSSQLCLI_DIST_DIRECTORY):
         pkg_path = os.path.join(utility.MSSQLCLI_DIST_DIRECTORY, pkg)
         print('Uploading package {}'.format(pkg_path))
-        _upload_package(blob_service, pkg_path, 'mssql-cli')
+        _upload_package(blob_service, pkg_path, 'osql-cli')
 
-    _gen_pkg_index_html(blob_service, 'mssql-cli')
+    _gen_pkg_index_html(blob_service, 'osql-cli')
     _upload_index_file(
         blob_service,
         'whl/index.html',

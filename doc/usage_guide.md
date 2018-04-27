@@ -7,9 +7,9 @@ Contents
 * [Special Commands](#special-commands)
 
 ## Description
-mssql-cli is a new and interactive command line query tool for SQL Server. This open source tool works cross-platform and is a proud member of the dbcli community.
+osql-cli is a new and interactive command line query tool for SQL Server. This open source tool works cross-platform and is a proud member of the dbcli community.
 
-mssql-cli provides the following key enhancements over sqlcmd in the Terminal environment:
+osql-cli provides the following key enhancements over sqlcmd in the Terminal environment:
 - T-SQL IntelliSense
 - Syntax highlighting
 - Pretty formatting for query results, including Vertical Format
@@ -20,10 +20,10 @@ If you encounter any issues, see the[troubleshooting](#troubleshooting_guide.md)
 
 
 ## Options
-Type **mssql-cli --help** to also see these options.
+Type **osql-cli --help** to also see these options.
 
 ```bash 
-$ mssql-cli --help
+$ osql-cli --help
 Usage: main.py [OPTIONS]
 
 Options:
@@ -31,9 +31,9 @@ Options:
     -U, --username TEXT     Username to connect to the database.
     -W, --password          Force password prompt.
     -E, --integrated        Use integrated authentication on windows.
-    -v, --version           Version of mssql-cli.
+    -v, --version           Version of osql-cli.
     -d, --database TEXT     database name to connect to.
-    --mssqlclirc TEXT       Location of mssqlclirc config file.
+    --osqlclirc TEXT       Location of osqlclirc config file.
     --row-limit INTEGER     Set threshold for row limit prompt. Use 0 to disable
                             prompt.
     --less-chatty           Skip intro on startup and goodbye on exit.
@@ -46,7 +46,7 @@ Options:
 Below are example commands that run against the AdventureWorks database in a localhost server instance. Here is a list of examples:
 
  * [Connect to a server](#connect-to-a-server)
- * [Exit mssql-cli](#exit-mssql-cli)
+ * [Exit osql-cli](#exit-osql-cli)
  * [Navigate multiple pages of query result](#navigate-multiple-pages-of-query-result)
  * [Quit a query](#quit-a-query)
  * [Clear screen](#clear-screen)
@@ -56,10 +56,10 @@ Below are example commands that run against the AdventureWorks database in a loc
 Connect to a server, a specific database, and with a username. -S -d and -U are optional. You can [set environment variables](#Environment-Variables) to set default settings.
 
 ```bash
-mssql-cli -S localhost -d AdventureWorks -U sa
+osql-cli -S localhost -d AdventureWorks -U sa
 ```
 
-### Exit mssql-cli 
+### Exit osql-cli 
 Press **Ctrl+D** or type:
 ```bash
 quit
@@ -127,7 +127,7 @@ Set environment variable MSSQL_CLI_SERVER to set a default SQL Server instance n
 
 ```bash
 set MSSQL_CLI_SERVER=localhost
-mssql-cli
+osql-cli
 ```
 
 ### Set default database
@@ -135,7 +135,7 @@ Set environment variable MSSQL_CLI_DATABASE to set a default database.
 
 ```bash
 set MSSQL_CLI_DATABASE=AdventureWorks
-mssql-cli -S localhost -U sa
+osql-cli -S localhost -U sa
 ```
 
 ### Set default user
@@ -143,7 +143,7 @@ Set environment variable MSSQL_CLI_USER to set a default user.
 
 ```bash
 set MSSQL_CLI_USER=sa
-mssql-cli -S localhost -d AdventureWorks
+osql-cli -S localhost -d AdventureWorks
 ```
 
 ### Set default password
@@ -151,7 +151,7 @@ Set environment variable MSSQL_CLI_PASSWORD to set a default password.
 
 ```bash
 set MSSQL_CLI_PASSWORD=abc123
-mssql-cli -S localhost -d AdventureWorks -U sa
+osql-cli -S localhost -d AdventureWorks -U sa
 ```
 
 ### Set default row limit
@@ -159,7 +159,7 @@ Set environment variable MSSQL_CLI_ROW_LIMIT to set threshold for row limit prom
 
 ```bash
 set MSSQL_CLI_ROW_LIMIT=10
-mssql-cli -S localhost -U sa
+osql-cli -S localhost -U sa
 ```
 
 ## Special Commands
@@ -168,10 +168,10 @@ Moreover you can save your own commonly used queries as shortcuts.
 
 All special commands start with a backslash ('\\') and doing so will bring up an autocomplete with all special commands and their descriptions. 
 
-For more help simply type '\\?' inside the mssql-cli prompt to list all the special commands, their usage and description.
+For more help simply type '\\?' inside the osql-cli prompt to list all the special commands, their usage and description.
 
 ```bash
-mssql-cli>\?
+osql-cli>\?
 ```
 
 Here are a few examples:
@@ -179,31 +179,31 @@ Here are a few examples:
 ### Example 1: List tables
 Show all tables which contain foo in their names:
 ```bash
-mssql-cli>\lt foo
+osql-cli>\lt foo
 ```
 For verbose output:
 ```bash
-mssql-cli>\lt+ foo
+osql-cli>\lt+ foo
 ```
 
 
 ### Example 2: Named queries
 Save 'select * from HumanResources.Department' as a named query called 'dept':
 ```bash
-mssql-cli>\sn dept select * from "HumanResources"."Department"
+osql-cli>\sn dept select * from "HumanResources"."Department"
 ```
 Run the named query:
 ```bash
-mssql-cli>\n dept
+osql-cli>\n dept
 ```
 
 You can even add parameters to your saved query:
 ```bash
-mssql-cli>\sn dept select * from "HumanResources"."Department" where "Name" like '%$1%'
+osql-cli>\sn dept select * from "HumanResources"."Department" where "Name" like '%$1%'
 ```
 Run the named query 'dept' with a parameter:
 ```bash
-mssql-cli>\n dept Human
+osql-cli>\n dept Human
 ```
 
 ### Full list of special commands

@@ -7,7 +7,7 @@ Building the RPM package
 On a build machine (e.g. new CentOS 7 VM) run the following.
 
 Install dependencies required to build:
-Required for rpm build tools & required to build mssql-cli.
+Required for rpm build tools & required to build osql-cli.
 ```
 sudo yum install -y gcc git rpm-build rpm-devel rpmlint make bash coreutils diffutils patch rpmdevtools python libffi-devel python-devel openssl-devel
 ```
@@ -15,8 +15,8 @@ sudo yum install -y gcc git rpm-build rpm-devel rpmlint make bash coreutils diff
 Build example:
 Note: use the full path to the repo path, not a relative path.
 ```
-git clone https://github.com/dbcli/mssql-cli
-cd mssql-cli
+git clone https://github.com/dbcli/osql-cli
+cd osql-cli
 build_scripts/rpm/build.sh $(pwd)
 ```
 
@@ -24,23 +24,23 @@ Verification
 ------------
 
 ```
-sudo rpm -i RPMS/*/mssql-cli-0.10.0.dev-1.el7.x86_64.rpm
-mssql-cli --version
+sudo rpm -i RPMS/*/osql-cli-0.10.0.dev-1.el7.x86_64.rpm
+osql-cli --version
 ```
 
 Check the file permissions of the package:  
 ```
-rpmlint RPMS/*/mssql-cli-0.10.0.dev-1.el7.x86_64.rpm
+rpmlint RPMS/*/osql-cli-0.10.0.dev-1.el7.x86_64.rpm
 ```
 
 Check the file permissions of the package:  
 ```
-rpm -qlvp RPMS/*/mssql-cli-0.10.0.dev-1.el7.x86_64.rpm
+rpm -qlvp RPMS/*/osql-cli-0.10.0.dev-1.el7.x86_64.rpm
 ```
 
 To remove:  
 ```
-sudo rpm -e mssql-cli
+sudo rpm -e osql-cli
 ```
 
 Links

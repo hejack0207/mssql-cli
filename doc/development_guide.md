@@ -16,13 +16,13 @@ provided by the bot. You will only need to do this once across all repos using o
 1. [Environment Setup](#Environment_Setup)
 2. [Configuring IDE](#Configure_IDE)
 3. [Running Tests](#Running_Tests)
-5. [Running mssql-cli](#Run_mssql-cli)
+5. [Running osql-cli](#Run_osql-cli)
 
 
-mssql-cli sources are located on GitHub (https://github.com/dbcli/mssql-cli). In order to contribute to the project, you are expected to: 
+osql-cli sources are located on GitHub (https://github.com/dbcli/osql-cli). In order to contribute to the project, you are expected to: 
 -	Have a GitHub account. For Microsoft contributors, follow the guidelines on https://opensourcehub.microsoft.com/ to create, configure and link your account
--	Fork the https://github.com/dbcli/mssql-cli repository into your private GitHub account
--	Create pull requests against the https://github.com/dbcli/mssql-cli repository to get your code changes merged into the project repository.
+-	Fork the https://github.com/dbcli/osql-cli repository into your private GitHub account
+-	Create pull requests against the https://github.com/dbcli/osql-cli repository to get your code changes merged into the project repository.
 
 ## <a name="Preparing_Machine"></a>1. Preparing your machine
 1.	Install latest Python from http://python.org. Please note that the version of Python that comes preinstalled on OSX is 2.7. It is recommended to install both Python 2.7 and Python3.6 to ensure backwards compatibility for testing.
@@ -30,7 +30,7 @@ mssql-cli sources are located on GitHub (https://github.com/dbcli/mssql-cli). In
     - The latest Python installation package can be downloaded from [here](https://www.python.org/downloads/).  
     - During installation, select the 'Add Python to PATH' option.  Python must be in the PATH environment variable.
     
-2. Clone the repo from [https://github.com/dbcli/mssql-cli](https://github.com/dbcli/mssql-cli)
+2. Clone the repo from [https://github.com/dbcli/osql-cli](https://github.com/dbcli/osql-cli)
 
 ## <a name="Environment_Setup"></a>2. Environment Setup
 When developing on a Python project, it is recommended to do so in a virtual environment. A virtual environment is a sandbox that maintains a copy of all libraries necessary to run python in a isolated environment without interfering with the system or global python. For more information on virtual environments, go to [Virtual Environment Info](virtual_environment_info.md).
@@ -125,21 +125,21 @@ Provided your PYTHONPATH was set correctly, you can run the tests from your `<cl
     python build.py integration_test
     ```
 
-## <a name="Run_mssql-cli"></a>5. Running mssql-cli
+## <a name="Run_osql-cli"></a>5. Running osql-cli
 #### Command line
 
-1.  Invoke mssql-cli using:
+1.  Invoke osql-cli using:
 
     ##### MacOS/Linux (bash):
     ```
-    mssql-cli --help
+    osql-cli --help
     ```
 
     ##### Windows:
     ```
-    <clone_root>\mssql-cli.bat --help
+    <clone_root>\osql-cli.bat --help
     ```
     which is equivalent to the following:
     ```
-    python -m mssql-cli --help
+    python -m osql-cli --help
     ```

@@ -22,21 +22,21 @@ def clean_and_copy_sqltoolsservice(platform):
         :param platform: string
     """
 
-    import mssqlcli.mssqltoolsservice.externals as mssqltoolsservice
+    import osqlcli.osqltoolsservice.externals as osqltoolsservice
 
-    mssqltoolsservice.clean_up_sqltoolsservice()
-    mssqltoolsservice.copy_sqltoolsservice(platform)
+    osqltoolsservice.clean_up_sqltoolsservice()
+    osqltoolsservice.copy_sqltoolsservice(platform)
 
 
 def code_analysis():
     utility.exec_command(
-        '{0} -m flake8 mssqlcli setup.py dev_setup.py build.py utility.py dos2unix.py'.format(PYTHON),
+        '{0} -m flake8 osqlcli setup.py dev_setup.py build.py utility.py dos2unix.py'.format(PYTHON),
         utility.ROOT_DIR)
 
 
 def build():
     """
-        Builds mssql-cli package.
+        Builds osql-cli package.
     """
     print_heading('Cleanup')
 
@@ -51,9 +51,9 @@ def build():
         '{0} install -r requirements-dev.txt'.format(PIP),
         utility.ROOT_DIR)
 
-    # convert windows line endings to unix for mssql-cli bash script
+    # convert windows line endings to unix for osql-cli bash script
     utility.exec_command(
-        '{0} dos2unix.py mssql-cli mssql-cli'.format(PYTHON),
+        '{0} dos2unix.py osql-cli osql-cli'.format(PYTHON),
         utility.ROOT_DIR)
 
     # run flake8
@@ -70,7 +70,7 @@ def build():
         clean_and_copy_sqltoolsservice(platform)
         utility.clean_up(utility.MSSQLCLI_BUILD_DIRECTORY)
 
-        print_heading('Building mssql-cli pip package')
+        print_heading('Building osql-cli pip package')
         utility.exec_command('{0} --version'.format(PYTHON), utility.ROOT_DIR)
         utility.exec_command('{0} setup.py check -r -s bdist_wheel --plat-name {1}'.format(PYTHON, platform),
                              utility.ROOT_DIR,
@@ -95,22 +95,22 @@ def copy_and_rename_wheels():
 
 def validate_package():
     """
-        Install mssql-cli package locally.
+        Install osql-cli package locally.
     """
     root_dir = os.path.abspath(os.path.join(os.path.abspath(__file__), '..'))
-    # Local install of mssql-cli.
-    mssqlcli_wheel_dir = os.listdir(utility.MSSQLCLI_DIST_DIRECTORY)
+    # Local install of osql-cli.
+    osqlcli_wheel_dir = os.listdir(utility.MSSQLCLI_DIST_DIRECTORY)
     # To ensure we have a clean install, we disable the cache as to prevent
     # cache overshadowing actual changes made.
     current_platform = utility.get_current_platform()
 
-    mssqlcli_wheel_name = [
-        pkge for pkge in mssqlcli_wheel_dir if current_platform in pkge and
+    osqlcli_wheel_name = [
+        pkge for pkge in osqlcli_wheel_dir if current_platform in pkge and
         'dev-latest' not in pkge]
     utility.exec_command(
         '{0} install --no-cache-dir --no-index ./dist/{1}'.format(
             PIP,
-            mssqlcli_wheel_name[0]),
+            osqlcli_wheel_name[0]),
         root_dir, continue_on_error=False
     )
 
@@ -120,15 +120,15 @@ def unit_test():
     Run all unit tests.
     """
     utility.exec_command(
-        'pytest --cov mssqlcli '
-        'tests/test_mssqlcliclient.py '
+        'pytest --cov osqlcli '
+        'tests/test_osqlcliclient.py '
         'tests/test_main.py '
         'tests/test_fuzzy_completion.py '
         'tests/test_rowlimit.py '
         'tests/test_sqlcompletion.py '
         'tests/test_prioritization.py '
-        'mssqlcli/jsonrpc/tests '
-        'mssqlcli/jsonrpc/contracts/tests '
+        'osqlcli/jsonrpc/tests '
+        'osqlcli/jsonrpc/contracts/tests '
         'tests/test_telemetry.py '
         'tests/test_special.py',
         utility.ROOT_DIR,

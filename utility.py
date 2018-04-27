@@ -67,14 +67,14 @@ def get_current_platform():
     return run_time_id
 
 
-def copy_current_platform_mssqltoolsservice():
+def copy_current_platform_osqltoolsservice():
     """
-    Copy the necessary mssqltoolsservice binaries for the current platform if supported.
+    Copy the necessary osqltoolsservice binaries for the current platform if supported.
     """
-    import mssqlcli.mssqltoolsservice.externals as mssqltoolsservice
+    import osqlcli.osqltoolsservice.externals as osqltoolsservice
 
     current_platform = get_current_platform()
     if current_platform:
-        mssqltoolsservice.copy_sqltoolsservice(current_platform)
+        osqltoolsservice.copy_sqltoolsservice(current_platform)
     else:
-        print("This platform: {} does not support mssqltoolsservice.".format(platform.system()))
+        print("This platform: {} does not support osqltoolsservice.".format(platform.system()))

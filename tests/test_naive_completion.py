@@ -6,8 +6,8 @@ from prompt_toolkit.document import Document
 
 @pytest.fixture
 def completer():
-    import mssqlcli.mssqlcompleter as mssqlcompleter
-    return mssqlcompleter.MssqlCompleter(smart_completion=False)
+    import osqlcli.osqlcompleter as osqlcompleter
+    return osqlcompleter.MssqlCompleter(smart_completion=False)
 
 
 @pytest.fixture

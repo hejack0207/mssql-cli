@@ -1,4 +1,4 @@
-from mssqlcli.packages.prioritization import PrevalenceCounter
+from osqlcli.packages.prioritization import PrevalenceCounter
 
 
 def test_prevalence_counter():

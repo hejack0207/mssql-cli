@@ -1,4 +1,4 @@
-mssql-cli release guide
+osql-cli release guide
 ========================================
 ## Table of Contents
 1. [Requirements](#Requirements)
@@ -24,7 +24,7 @@ mssql-cli release guide
 ### Requirements for daily and official builds:
 1. A azure storage account with a container named **daily**.
 
-2. A sub folder named **mssql-cli** under the previous container.
+2. A sub folder named **osql-cli** under the previous container.
 
 3. Set Azure storage account connection string via environment variable, this will be the storage account we are publishing to.
     #### Windows
@@ -52,9 +52,9 @@ bumpversion patch              ->  1.0.<b>1</b>
 **Note**: bumpversion does not allow version bumping if your workspace has pending changes.This is to protect against any manual updates that may have been made which can lead to inconsistent versions across files. If you know what you are doing you can override this by appending `--allow-dirty` to the bumpversion command.
 
 # <a name="Local"></a>Local builds
-The steps below outline how to build mssql-cli locally on your dev environment.
+The steps below outline how to build osql-cli locally on your dev environment.
 ## 1. Build
-1. Build mssql-cli wheel for the current platform:
+1. Build osql-cli wheel for the current platform:
     ```
     Python build.by build
     ```
@@ -62,15 +62,15 @@ The steps below outline how to build mssql-cli locally on your dev environment.
 ## 2. Install
 1. Test install locally:
 
-	To install the local mssql-scripter wheel package, from `<clone_root>` execute:
+	To install the local osql-scripter wheel package, from `<clone_root>` execute:
     ```
-    sudo pip install --no-index -i ./dist/mssql_scripter-1.0.0a1-py2.py3-none-win32.whl
+    sudo pip install --no-index -i ./dist/osql_scripter-1.0.0a1-py2.py3-none-win32.whl
     ```
     
 # <a name="Daily"></a>Daily builds
-The steps below outline how daily builds of mssql-cli are generated. These steps are ran on each supported platform via Visual Studio Team Services. 
+The steps below outline how daily builds of osql-cli are generated. These steps are ran on each supported platform via Visual Studio Team Services. 
 ## 1. Build
-1. Build mssql-cli:
+1. Build osql-cli:
     ```
     python build.py build
     ```
@@ -82,7 +82,7 @@ The steps below outline how daily builds of mssql-cli are generated. These steps
 ## 2. Install
 3. Test install from daily storage account:
     ```
-        pip install --pre --no-cache --extra-index-url https://mssqlcli.blob.core.windows.net/daily mssql-cli
+        pip install --pre --no-cache --extra-index-url https://osqlcli.blob.core.windows.net/daily osql-cli
     ```
     
 # <a name="Official"></a>Official builds

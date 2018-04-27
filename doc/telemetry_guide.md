@@ -37,7 +37,7 @@ Abnormal process termination.
 - Error flag to indicate type of shutdown.
 
 ### <a name="opt_out"></a>How do I opt out?
-The mssql-cli Tools telemetry feature is enabled by default. Opt-out of the telemetry feature by setting the ```MSSQL_CLI_TELEMETRY_OPTOUT``` environment variable to ```true``` or ```1```.
+The osql-cli Tools telemetry feature is enabled by default. Opt-out of the telemetry feature by setting the ```MSSQL_CLI_TELEMETRY_OPTOUT``` environment variable to ```true``` or ```1```.
 
 ##### Windows
 ```
@@ -54,17 +54,17 @@ export MSSQL_CLI_TELEMETRY_OPTOUT=True
 For those interested, anonymous usage data of the previous session will always be outputted to a telemetry file in the user's configuration directory. It can be found right next to the location of the configuration file.
 ##### MacOSX & Linux
 ```
-~/.config/mssqlcli/mssqlcli_telemetry.log
+~/.config/osqlcli/osqlcli_telemetry.log
 ```
 ##### Windows
 ```
-C:\Users\<Username>\AppData\Local\dbcli\mssqlcli\mssqlcli_telemetry.log
+C:\Users\<Username>\AppData\Local\dbcli\osqlcli\osqlcli_telemetry.log
 ```
 
 ##### Partial sample of log content
 ```
   {
-    "name": "mssqlcli",
+    "name": "osqlcli",
     "properties": {
       "Reserved.SequenceNumber": 1,
       "Reserved.EventId": "e6f0bdab-65b0-4e79-87a4-b05fa514c92d",

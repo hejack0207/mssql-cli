@@ -12,15 +12,15 @@ $ sudo easy_install pip
 # Update pip
 $ sudo pip install --upgrade pip
 
-# Install mssql-cli
-$ sudo pip install mssql-cli --ignore-installed six
+# Install osql-cli
+$ sudo pip install osql-cli --ignore-installed six
 
-# Run mssql-cli
-$ mssql-cli -h
+# Run osql-cli
+$ osql-cli -h
 ```
 
 ## Installation with daily preview build
-Daily preview builds are dropped in our storage account. To install the latest available version of mssql-cli, use the below command:
+Daily preview builds are dropped in our storage account. To install the latest available version of osql-cli, use the below command:
 ```shell
 # Install pip
 $ sudo easy_install pip
@@ -28,11 +28,11 @@ $ sudo easy_install pip
 # Update pip
 $ sudo pip install --upgrade pip
 
-# Install latest preview build of mssql-cli
-$ sudo pip install --pre --no-cache --extra-index-url https://mssqlcli.blob.core.windows.net/daily/whl mssql-cli
+# Install latest preview build of osql-cli
+$ sudo pip install --pre --no-cache --extra-index-url https://osqlcli.blob.core.windows.net/daily/whl osql-cli
 ```
 
 ## Uninstallation via pip
 ```shell
-$ sudo pip uninstall mssql-cli
+$ sudo pip uninstall osql-cli
 ```

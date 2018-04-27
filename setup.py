@@ -8,7 +8,7 @@ from codecs import open
 
 _version_re = re.compile(r'__version__\s+=\s+(.*)')
 
-with open('mssqlcli/__init__.py', 'rb') as f:
+with open('osqlcli/__init__.py', 'rb') as f:
     version = str(ast.literal_eval(_version_re.search(
         f.read().decode('utf-8')).group(1)))
 
@@ -42,22 +42,22 @@ install_requirements = [
 ]
 
 setup(
-    name='mssql-cli',
+    name='osql-cli',
     author='Microsoft Corporation',
     author_email='sqlcli@microsoft.com',
     version=version if os.environ.get('MSSQL_CLI_OFFICIAL_BUILD', '') else get_timestamped_version(version),
     license='BSD-3',
-    url='https://github.com/dbcli/mssql-cli',
+    url='https://github.com/dbcli/osql-cli',
     packages=find_packages(),
-    package_data={'mssqlcli': ['mssqlclirc',
-                               'packages/mssqlliterals/sqlliterals.json']},
+    package_data={'osqlcli': ['osqlclirc',
+                               'packages/osqlliterals/sqlliterals.json']},
     description=description,
     long_description=open('README.rst', encoding='utf-8').read(),
     install_requires=install_requirements,
     include_package_data=True,
     scripts=[
-        'mssql-cli.bat',
-        'mssql-cli'
+        'osql-cli.bat',
+        'osql-cli'
     ],
     classifiers=[
         'Intended Audience :: Developers',

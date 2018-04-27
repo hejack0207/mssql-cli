@@ -1,11 +1,11 @@
 # Roadmap
-The following milestones outline the areas of focus for future mssql-cli work. This document is not intended as a commitment to any 
+The following milestones outline the areas of focus for future osql-cli work. This document is not intended as a commitment to any 
 specific feature or timeline. Instead, the intent is to group related work into milestones using broader themes to convey the direction
-and priorities of mssql-cli.  Actual work and focus may change, but the hope is this roadmap is our guide.
+and priorities of osql-cli.  Actual work and focus may change, but the hope is this roadmap is our guide.
 
 ## Feedback
-The best way to give feedback is to create a github issue in the [dbcli/mssql-cli](https://github.com/dbcli/mssql-cli/issues) repo 
-using the [roadmap label](https://github.com/dbcli/mssql-cli/labels/roadmap). 
+The best way to give feedback is to create a github issue in the [dbcli/osql-cli](https://github.com/dbcli/osql-cli/issues) repo 
+using the [roadmap label](https://github.com/dbcli/osql-cli/labels/roadmap). 
 
 ## Milestone 1
 * Parity with pgcli and mycli

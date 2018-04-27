@@ -1,4 +1,4 @@
-from mssqlcli.packages.parseutils.meta import FunctionMetadata
+from osqlcli.packages.parseutils.meta import FunctionMetadata
 
 
 def test_function_metadata_eq():

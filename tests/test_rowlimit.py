@@ -1,8 +1,8 @@
-from mssqlcli.main import MssqlCli
-from mssqltestutils import create_mssql_cli_options
+from osqlcli.main import MssqlCli
+from osqltestutils import create_osql_cli_options
 
 
-DEFAULT_OPTIONS = create_mssql_cli_options()
+DEFAULT_OPTIONS = create_osql_cli_options()
 DEFAULT = MssqlCli(DEFAULT_OPTIONS).row_limit
 LIMIT = DEFAULT + 1000
 
@@ -22,7 +22,7 @@ def test_default_row_limit():
 
 
 def test_set_row_limit():
-    cli_options = create_mssql_cli_options(row_limit=LIMIT)
+    cli_options = create_osql_cli_options(row_limit=LIMIT)
     cli = MssqlCli(cli_options)
     stmt = "SELECT * FROM students"
     result = cli._should_show_limit_prompt(stmt, ['row']*over_default)
@@ -33,7 +33,7 @@ def test_set_row_limit():
 
 
 def test_no_limit():
-    cli_options = create_mssql_cli_options(row_limit=0)
+    cli_options = create_osql_cli_options(row_limit=0)
     cli = MssqlCli(cli_options)
     assert cli.row_limit is 0
     stmt = "SELECT * FROM students"
@@ -48,7 +48,7 @@ def test_row_limit_on_non_select():
     result = cli._should_show_limit_prompt(stmt, None)
     assert result is False
 
-    cli_options = create_mssql_cli_options(row_limit=0)
+    cli_options = create_osql_cli_options(row_limit=0)
     assert cli_options.row_limit is 0
     cli = MssqlCli(cli_options)
     result = cli._should_show_limit_prompt(stmt, ['row']*over_default)

@@ -1,0 +1,29 @@
+[tox]
+envlist = py27,py36
+# We will build the sdist ourselves as we need to detect
+# what platform we are on and install the generated wheel
+# locally.
+skipsdist=True
+[testenv]
+passenv = *
+setenv =
+    PYTHONPATH = {toxinidir}
+    PYTHONIOENCODING=utf-8
+
+deps=
+    -rrequirements-dev.txt
+
+install_commands =
+commands=
+
+    # Build all packages
+    python build.py build
+
+    # Run dev_setup.py to set local mssqltoolsservice
+    python dev_setup.py
+
+    # Run unit tests
+    python build.py unit_test
+
+    # verify packaging via local install
+    python build.py validate_package

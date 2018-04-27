@@ -2,7 +2,7 @@
 
 set -ex
 
-# Create the debian/ directory for building the mssql-cli Debian package
+# Create the debian/ directory for building the osql-cli Debian package
 
 # This script takes an argument of the empty directory where the files will be placed.
 
@@ -35,7 +35,7 @@ echo '1.0' > $debian_dir/source/format
 echo '9' > $debian_dir/compat
 
 cat > $debian_dir/changelog <<- EOM
-mssql-cli ($cli_version-${CLI_VERSION_REVISION:=1}) unstable; urgency=low
+osql-cli ($cli_version-${CLI_VERSION_REVISION:=1}) unstable; urgency=low
 
   * Debian package release.
 
@@ -44,27 +44,27 @@ mssql-cli ($cli_version-${CLI_VERSION_REVISION:=1}) unstable; urgency=low
 EOM
 
 cat > $debian_dir/control <<- EOM
-Source: mssql-cli
+Source: osql-cli
 Section: python
 Priority: extra
 Maintainer: Microsoft SQL Server CLI Team <sqlcli@microsoft.com>
 Build-Depends: debhelper (>= 9), libssl-dev, libffi-dev, python3-dev
 Standards-Version: 3.9.5
-Homepage: https://github.com/dbcli/mssql-cli
+Homepage: https://github.com/dbcli/osql-cli
 
-Package: mssql-cli
+Package: osql-cli
 Architecture: all
 Depends: libunwind8, libicu52 | libicu55 | libicu57
-Description: mssql-cli
-    We’re excited to introduce mssql-cli, a new and interactive command line query tool for SQL Server.
+Description: osql-cli
+    We’re excited to introduce osql-cli, a new and interactive command line query tool for SQL Server.
     This open source tool works cross-platform and proud to be a part of the dbcli.org community.
 EOM
 
 cat > $debian_dir/copyright <<- EOM
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: mssql-cli
+Upstream-Name: osql-cli
 Upstream-Contact: Microsoft SQL Server CLI Team <sqlcli@microsoft.com>
-Source: https://github.com/dbcli/mssql-cli
+Source: https://github.com/dbcli/osql-cli
 
 Files: *
 License: BSD-3
@@ -83,12 +83,12 @@ ${TAB}dh \$@ --sourcedirectory $source_dir
 override_dh_auto_build:
 override_dh_auto_install:
 override_dh_install:
-${TAB}mkdir -p debian/mssql-cli/mssql-cli
-${TAB}cp -a python_env/* debian/mssql-cli/mssql-cli
-${TAB}mkdir -p debian/mssql-cli/usr/bin/
-${TAB}echo "if [ -z ${PYTHONIOENCODING+x} ]; then export PYTHONIOENCODING=utf8; fi" > debian/mssql-cli/usr/bin/mssql-cli
-${TAB}echo "\043!/usr/bin/env bash\n/mssql-cli/bin/python3 -Im mssqlcli.main \"\044\100\"" > debian/mssql-cli/usr/bin/mssql-cli
-${TAB}chmod 0755 debian/mssql-cli/usr/bin/mssql-cli
+${TAB}mkdir -p debian/osql-cli/osql-cli
+${TAB}cp -a python_env/* debian/osql-cli/osql-cli
+${TAB}mkdir -p debian/osql-cli/usr/bin/
+${TAB}echo "if [ -z ${PYTHONIOENCODING+x} ]; then export PYTHONIOENCODING=utf8; fi" > debian/osql-cli/usr/bin/osql-cli
+${TAB}echo "\043!/usr/bin/env bash\n/osql-cli/bin/python3 -Im osqlcli.main \"\044\100\"" > debian/osql-cli/usr/bin/osql-cli
+${TAB}chmod 0755 debian/osql-cli/usr/bin/osql-cli
 
 override_dh_strip:
 ${TAB}dh_strip --exclude=_cffi_backend

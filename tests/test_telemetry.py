@@ -3,7 +3,7 @@ import json
 import os
 import unittest
 
-import mssqlcli.telemetry_upload as telemetry_upload
+import osqlcli.telemetry_upload as telemetry_upload
 
 try:
     # Python 2.x
@@ -21,7 +21,7 @@ class TelemetryTests(unittest.TestCase):
     """
     @staticmethod
     def build_telemetry_client():
-        import mssqlcli.telemetry as telemetry
+        import osqlcli.telemetry as telemetry
         return telemetry
 
     def test_telemetry_data_points(self):
