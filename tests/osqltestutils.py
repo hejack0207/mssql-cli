@@ -2,13 +2,13 @@ import osqlcli.sqltoolsclient as sqltoolsclient
 import osqlcli.osqlcliclient as osqlcliclient
 
 from argparse import Namespace
-from osqlcli.osql_cli import MssqlCli
+from osqlcli.osql_cli import osqlCli
 from osqlcli.osqlclioptionsparser import create_parser
 
 
 def create_osql_cli(**non_default_options):
     osqlcli_options = create_osql_cli_options(**non_default_options)
-    osql_cli = MssqlCli(osqlcli_options)
+    osql_cli = osqlCli(osqlcli_options)
 
     return osql_cli
 
@@ -21,13 +21,13 @@ def create_osql_cli_client(options=None, owner_uri=None, connect=True, sql_tools
     :param connect: boolean
     :param sql_tools_client: SqlToolsClient
     :param additional_params: kwargs
-    :return: MssqlCliClient
+    :return: osqlCliClient
     """
     try:
         sql_tools_client = sql_tools_client if sql_tools_client else sqltoolsclient.SqlToolsClient()
         osql_cli_options = options if options else create_osql_cli_options()
 
-        osql_cli_client = osqlcliclient.MssqlCliClient(osql_cli_options,
+        osql_cli_client = osqlcliclient.osqlCliClient(osql_cli_options,
                                                          sql_tools_client,
                                                          owner_uri=owner_uri,
                                                          **additional_params)

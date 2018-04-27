@@ -3,7 +3,7 @@ import threading
 import osqlcli.decorators as decorators
 
 from collections import OrderedDict
-from .osqlcompleter import MssqlCompleter
+from .osqlcompleter import osqlCompleter
 
 logger = logging.getLogger(u'osqlcli.completion_refresher')
 
@@ -19,7 +19,7 @@ class CompletionRefresher(object):
     def refresh(self, mssqcliclient, callbacks, history=None,
                 settings=None):
         """
-        Creates a MssqlCompleter object and populates it with the relevant
+        Creates a osqlCompleter object and populates it with the relevant
         completion suggestions in a background thread.
 
         osqlcliclient - used to extract the credentials to connect
@@ -48,7 +48,7 @@ class CompletionRefresher(object):
     def _bg_refresh(self, osqlcliclient, callbacks, history=None,
                     settings=None):
         settings = settings or {}
-        completer = MssqlCompleter(smart_completion=True, settings=settings)
+        completer = osqlCompleter(smart_completion=True, settings=settings)
 
         executor = osqlcliclient
         owner_uri, error_messages = executor.connect_to_database()

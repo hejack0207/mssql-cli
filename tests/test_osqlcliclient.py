@@ -18,7 +18,7 @@ from time import sleep
 # AdventureWorks2014 database with a hardcoded test server.
 # Make modifications to osqlutils.create_osql_cli_client() to use a different server and database.
 # Please Note: These tests cannot be run offline.
-class MssqlCliClientTests(unittest.TestCase):
+class osqlCliClientTests(unittest.TestCase):
     """
         Tests for osqlcliclient.py and sqltoolsclient.py.
     """
@@ -137,7 +137,7 @@ class MssqlCliClientTests(unittest.TestCase):
 
     def test_osqlcliclient_reset_connection(self):
         """
-            Verify if the MssqlCliClient can successfully reset its connection
+            Verify if the osqlCliClient can successfully reset its connection
         """
         try:
             osqlcli = create_osql_cli()

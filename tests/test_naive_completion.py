@@ -7,7 +7,7 @@ from prompt_toolkit.document import Document
 @pytest.fixture
 def completer():
     import osqlcli.osqlcompleter as osqlcompleter
-    return osqlcompleter.MssqlCompleter(smart_completion=False)
+    return osqlcompleter.osqlCompleter(smart_completion=False)
 
 
 @pytest.fixture
