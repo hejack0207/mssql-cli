@@ -111,7 +111,7 @@ class OsqlCliClientTests(unittest.TestCase):
         """
             Verify osqlcliclient's tables, views, columns, and schema are populated.
             Note: This test should run against a database that the credentials
-                  MSSQL_CLI_USER and MSSQL_CLI_PASSWORD have write access to.
+                  OSQL_CLI_USER and OSQL_CLI_PASSWORD have write access to.
         """
         try:
             client = create_osql_cli_client()

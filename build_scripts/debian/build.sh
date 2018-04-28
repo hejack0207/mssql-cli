@@ -12,7 +12,7 @@ local_repo=$1
 
 sudo apt-get update
 
-if [ "${MSSQL_CLI_OFFICIAL_BUILD}" != "True" ]
+if [ "${OSQL_CLI_OFFICIAL_BUILD}" != "True" ]
     then
         time_stamp=$(date +%y%m%d%H%M)
         CLI_VERSION=$CLI_VERSION.dev$time_stamp

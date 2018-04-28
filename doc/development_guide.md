@@ -100,18 +100,18 @@ Provided your PYTHONPATH was set correctly, you can run the tests from your `<cl
     **Note**: You must first set the target server and database information connection info via environment variables:
     ##### Windows
     ```
-        set MSSQL_CLI_SERVER=<Target server name>
-        set MSSQL_CLI_DATABASE=<Target database name>
-        set MSSQL_CLI_USER=<User name>
-        set MSSQL_CLI_PASSWORD=<password>
+        set OSQL_CLI_SERVER=<Target server name>
+        set OSQL_CLI_DATABASE=<Target database name>
+        set OSQL_CLI_USER=<User name>
+        set OSQL_CLI_PASSWORD=<password>
     ```
     
     ##### MacOSX/Linux (bash)
     ```
-        export MSSQL_CLI_SERVER=<Target server name>
-        export MSSQL_CLI_DATABASE=<Target database name>
-        export MSSQL_CLI_USER=<User name>
-        export MSSQL_CLI_PASSWORD=<password>
+        export OSQL_CLI_SERVER=<Target server name>
+        export OSQL_CLI_DATABASE=<Target database name>
+        export OSQL_CLI_USER=<User name>
+        export OSQL_CLI_PASSWORD=<password>
     ```
 
     Execute the unit tests.

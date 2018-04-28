@@ -78,7 +78,7 @@ class TelemetryTests(unittest.TestCase):
         test_telemetry_client = self.build_telemetry_client()
         test_telemetry_client.start()
 
-        os.environ[test_telemetry_client.MSSQL_CLI_TELEMETRY_OPT_OUT] = 'False'
+        os.environ[test_telemetry_client.OSQL_CLI_TELEMETRY_OPT_OUT] = 'False'
         try:
             payload = test_telemetry_client.conclude(
                                         service_endpoint_uri='https://vortex.data.microsoft.com/collect/v1/validate',
@@ -89,7 +89,7 @@ class TelemetryTests(unittest.TestCase):
 
     def test_telemetry_opt_out(self):
         test_telemetry_client = self.build_telemetry_client()
-        os.environ[test_telemetry_client.MSSQL_CLI_TELEMETRY_OPT_OUT] = 'True'
+        os.environ[test_telemetry_client.OSQL_CLI_TELEMETRY_OPT_OUT] = 'True'
 
         test_telemetry_client.start()
         payload = test_telemetry_client.conclude()

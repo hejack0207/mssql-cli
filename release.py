@@ -6,7 +6,7 @@ import utility
 
 AZURE_STORAGE_CONNECTION_STRING = os.environ.get(
     'AZURE_STORAGE_CONNECTION_STRING')
-BLOB_MSSQL_CLI_DAILY_CONTAINER_NAME = 'daily/whl/osql-cli'
+BLOB_OSQL_CLI_DAILY_CONTAINER_NAME = 'daily/whl/osql-cli'
 BLOB_CONTAINER_NAME = 'daily'
 UPLOADED_PACKAGE_LINKS = []
 
@@ -71,8 +71,8 @@ def download_official_wheels():
     from osqlcli import __version__ as latest_version
 
     # Clear previous downloads
-    utility.clean_up(utility.MSSQLCLI_DIST_DIRECTORY)
-    os.mkdir(utility.MSSQLCLI_DIST_DIRECTORY)
+    utility.clean_up(utility.OSQLCLI_DIST_DIRECTORY)
+    os.mkdir(utility.OSQLCLI_DIST_DIRECTORY)
 
     print('Downloading official wheels with version: {}'.format(latest_version))
     blob_names = [
@@ -86,12 +86,12 @@ def download_official_wheels():
     for blob in blob_names:
         print('Downloading wheel:{}'.format(blob))
 
-        if not blob_service.exists(BLOB_MSSQL_CLI_DAILY_CONTAINER_NAME, blob):
-            print('Error: blob: {} does not exist in container: {}'.format(blob, BLOB_MSSQL_CLI_DAILY_CONTAINER_NAME))
+        if not blob_service.exists(BLOB_OSQL_CLI_DAILY_CONTAINER_NAME, blob):
+            print('Error: blob: {} does not exist in container: {}'.format(blob, BLOB_OSQL_CLI_DAILY_CONTAINER_NAME))
             sys.exit(1)
 
-        blob_service.get_blob_to_path(BLOB_MSSQL_CLI_DAILY_CONTAINER_NAME, blob, '{0}\{1}'.format(
-                                                                                        utility.MSSQLCLI_DIST_DIRECTORY,
+        blob_service.get_blob_to_path(BLOB_OSQL_CLI_DAILY_CONTAINER_NAME, blob, '{0}\{1}'.format(
+                                                                                        utility.OSQLCLI_DIST_DIRECTORY,
                                                                                         blob))
 
 
@@ -99,14 +99,14 @@ def publish_official():
     """
     Publish osql-cli package to PyPi.
     """
-    osqlcli_wheel_dir = os.listdir(utility.MSSQLCLI_DIST_DIRECTORY)
+    osqlcli_wheel_dir = os.listdir(utility.OSQLCLI_DIST_DIRECTORY)
     # Run twine action for osql-cli.
     # Only authorized users with credentials will be able to upload this package.
     # Credentials will be stored in a .pypirc file.
     for wheel in osqlcli_wheel_dir:
         utility.exec_command(
             'twine upload {}'.format(wheel),
-            utility.MSSQLCLI_DIST_DIRECTORY)
+            utility.OSQLCLI_DIST_DIRECTORY)
 
 
 def publish_daily():
@@ -120,8 +120,8 @@ def publish_daily():
         connection_string=AZURE_STORAGE_CONNECTION_STRING)
 
     print_heading('Uploading packages to blob storage ')
-    for pkg in os.listdir(utility.MSSQLCLI_DIST_DIRECTORY):
-        pkg_path = os.path.join(utility.MSSQLCLI_DIST_DIRECTORY, pkg)
+    for pkg in os.listdir(utility.OSQLCLI_DIST_DIRECTORY):
+        pkg_path = os.path.join(utility.OSQLCLI_DIST_DIRECTORY, pkg)
         print('Uploading package {}'.format(pkg_path))
         _upload_package(blob_service, pkg_path, 'osql-cli')
 

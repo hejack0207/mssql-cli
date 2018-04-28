@@ -14,7 +14,7 @@ with open('osqlcli/__init__.py', 'rb') as f:
 
 description = 'CLI for SQL Server Database. With auto-completion and syntax highlighting.'
 
-MSSQLTOOLSSERVICE_VERSION = '1.0.0a21'
+OSQLTOOLSSERVICE_VERSION = '1.0.0a21'
 
 
 def get_timestamped_version(version):
@@ -45,7 +45,7 @@ setup(
     name='osql-cli',
     author='Microsoft Corporation',
     author_email='sqlcli@microsoft.com',
-    version=version if os.environ.get('MSSQL_CLI_OFFICIAL_BUILD', '') else get_timestamped_version(version),
+    version=version if os.environ.get('OSQL_CLI_OFFICIAL_BUILD', '') else get_timestamped_version(version),
     license='BSD-3',
     url='https://github.com/dbcli/osql-cli',
     packages=find_packages(),

@@ -114,51 +114,51 @@ SELECT "Name", "DepartmentID"
 
 ## Environment Variables
 Below are a list of environment variables that can be set.
-* MSSQL_CLI_SERVER - [Set default server](#set-default-server)
-* MSSQL_CLI_DATABASE - [Set default database](#set-default-database)
-* MSSQL_CLI_USER - [Set default user](#set-default-user)
-* MSSQL_CLI_PASSWORD - [Set default password](#set-default-password)
-* MSSQL_CLI_ROW_LIMIT - [Set default row limit](#set-default-row-limit)
+* OSQL_CLI_SERVER - [Set default server](#set-default-server)
+* OSQL_CLI_DATABASE - [Set default database](#set-default-database)
+* OSQL_CLI_USER - [Set default user](#set-default-user)
+* OSQL_CLI_PASSWORD - [Set default password](#set-default-password)
+* OSQL_CLI_ROW_LIMIT - [Set default row limit](#set-default-row-limit)
 
 **Important: If you are using macOS or Linux, use 'export' instead of 'set'. 'set' is Windows-only.**
 
 ### Set default server
-Set environment variable MSSQL_CLI_SERVER to set a default SQL Server instance name or address
+Set environment variable OSQL_CLI_SERVER to set a default SQL Server instance name or address
 
 ```bash
-set MSSQL_CLI_SERVER=localhost
+set OSQL_CLI_SERVER=localhost
 osql-cli
 ```
 
 ### Set default database
-Set environment variable MSSQL_CLI_DATABASE to set a default database.
+Set environment variable OSQL_CLI_DATABASE to set a default database.
 
 ```bash
-set MSSQL_CLI_DATABASE=AdventureWorks
+set OSQL_CLI_DATABASE=AdventureWorks
 osql-cli -S localhost -U sa
 ```
 
 ### Set default user
-Set environment variable MSSQL_CLI_USER to set a default user.
+Set environment variable OSQL_CLI_USER to set a default user.
 
 ```bash
-set MSSQL_CLI_USER=sa
+set OSQL_CLI_USER=sa
 osql-cli -S localhost -d AdventureWorks
 ```
 
 ### Set default password
-Set environment variable MSSQL_CLI_PASSWORD to set a default password.
+Set environment variable OSQL_CLI_PASSWORD to set a default password.
 
 ```bash
-set MSSQL_CLI_PASSWORD=abc123
+set OSQL_CLI_PASSWORD=abc123
 osql-cli -S localhost -d AdventureWorks -U sa
 ```
 
 ### Set default row limit
-Set environment variable MSSQL_CLI_ROW_LIMIT to set threshold for row limit prompt. Use 0 to disable prompt.
+Set environment variable OSQL_CLI_ROW_LIMIT to set threshold for row limit prompt. Use 0 to disable prompt.
 
 ```bash
-set MSSQL_CLI_ROW_LIMIT=10
+set OSQL_CLI_ROW_LIMIT=10
 osql-cli -S localhost -U sa
 ```
 

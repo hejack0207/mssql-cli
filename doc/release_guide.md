@@ -110,12 +110,12 @@ The steps below outline how to build official builds and publish to PYPI.
 2. Set env var to indicate a official build:
     #### Windows
     ```
-       set MSSQL_CLI_OFFICIAL_BUILD=True
+       set OSQL_CLI_OFFICIAL_BUILD=True
     ```
     
     #### MacOS/Linux
     ```
-        export MSSQL_CLI_OFFICIAL_BUILD=True
+        export OSQL_CLI_OFFICIAL_BUILD=True
     ```
 3. Build for the current platform:
     ```

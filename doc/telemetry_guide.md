@@ -37,15 +37,15 @@ Abnormal process termination.
 - Error flag to indicate type of shutdown.
 
 ### <a name="opt_out"></a>How do I opt out?
-The osql-cli Tools telemetry feature is enabled by default. Opt-out of the telemetry feature by setting the ```MSSQL_CLI_TELEMETRY_OPTOUT``` environment variable to ```true``` or ```1```.
+The osql-cli Tools telemetry feature is enabled by default. Opt-out of the telemetry feature by setting the ```OSQL_CLI_TELEMETRY_OPTOUT``` environment variable to ```true``` or ```1```.
 
 ##### Windows
 ```
-set MSSQL_CLI_TELEMETRY_OPTOUT=True
+set OSQL_CLI_TELEMETRY_OPTOUT=True
 ```
 ##### MacOS/Linux (bash)
 ```
-export MSSQL_CLI_TELEMETRY_OPTOUT=True
+export OSQL_CLI_TELEMETRY_OPTOUT=True
 ```
 
 ### <a name="information"></a>Additional Information

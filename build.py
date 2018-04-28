@@ -41,7 +41,7 @@ def build():
     print_heading('Cleanup')
 
     # clean
-    utility.clean_up(utility.MSSQLCLI_DIST_DIRECTORY)
+    utility.clean_up(utility.OSQLCLI_DIST_DIRECTORY)
     utility.clean_up_egg_info_sub_directories(utility.ROOT_DIR)
 
     print_heading('Running setup')
@@ -68,7 +68,7 @@ def build():
         # For the current platform, populate the appropriate binaries and
         # generate the wheel.
         clean_and_copy_sqltoolsservice(platform)
-        utility.clean_up(utility.MSSQLCLI_BUILD_DIRECTORY)
+        utility.clean_up(utility.OSQLCLI_BUILD_DIRECTORY)
 
         print_heading('Building osql-cli pip package')
         utility.exec_command('{0} --version'.format(PYTHON), utility.ROOT_DIR)
@@ -83,13 +83,13 @@ def build():
 
 def copy_and_rename_wheels():
     # Create a additional copy of each build artifact with a ever green name with 'dev-latest' as it's version.
-    for pkg_name in os.listdir(utility.MSSQLCLI_DIST_DIRECTORY):
+    for pkg_name in os.listdir(utility.OSQLCLI_DIST_DIRECTORY):
         first_dash = pkg_name.find('-')
         second_dash = pkg_name.find('-', first_dash + 1, len(pkg_name))
         pkg_daily_name = pkg_name.replace(pkg_name[first_dash + 1:second_dash], 'dev-latest')
 
-        original_path = os.path.join(utility.MSSQLCLI_DIST_DIRECTORY, pkg_name)
-        updated_path = os.path.join(utility.MSSQLCLI_DIST_DIRECTORY, pkg_daily_name)
+        original_path = os.path.join(utility.OSQLCLI_DIST_DIRECTORY, pkg_name)
+        updated_path = os.path.join(utility.OSQLCLI_DIST_DIRECTORY, pkg_daily_name)
         copyfile(original_path, updated_path)
 
 
@@ -99,7 +99,7 @@ def validate_package():
     """
     root_dir = os.path.abspath(os.path.join(os.path.abspath(__file__), '..'))
     # Local install of osql-cli.
-    osqlcli_wheel_dir = os.listdir(utility.MSSQLCLI_DIST_DIRECTORY)
+    osqlcli_wheel_dir = os.listdir(utility.OSQLCLI_DIST_DIRECTORY)
     # To ensure we have a clean install, we disable the cache as to prevent
     # cache overshadowing actual changes made.
     current_platform = utility.get_current_platform()

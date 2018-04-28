@@ -7,10 +7,10 @@ import sys
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.abspath(__file__), '..'))
 
-MSSQLCLI_DIST_DIRECTORY = os.path.abspath(
+OSQLCLI_DIST_DIRECTORY = os.path.abspath(
     os.path.join(os.path.abspath(__file__), '..', 'dist'))
 
-MSSQLCLI_BUILD_DIRECTORY = os.path.abspath(
+OSQLCLI_BUILD_DIRECTORY = os.path.abspath(
     os.path.join(os.path.abspath(__file__), '..', 'build'))
 
 
