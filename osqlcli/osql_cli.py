@@ -34,7 +34,6 @@ from osqlcli.osqlcliclient import OsqlCliClient
 from osqlcli.osqlcompleter import OsqlCompleter
 from osqlcli.osqlstyle import style_factory
 from osqlcli.osqltoolbar import create_toolbar_tokens_func
-from osqlcli.sqltoolsclient import SqlToolsClient
 from osqlcli.packages import special
 
 from prompt_toolkit import CommandLineInterface, Application, AbortAction
@@ -572,13 +571,13 @@ class OsqlCli(object):
 
             if not self.osqlcliclient_main.connect_to_database():
                 click.secho('Unable reconnect to server {0}; database {1}.'.format(
-                    self.osqlcliclient_main.server_name,
-                    self.osqlcliclient_main.database),
+                    self.osqlcliclient_main.db_ip,
+                    self.osqlcliclient_main.sid),
                     err=True, fg='yellow')
 
                 self.logger.info(u'Unable to reset connection to server {0}; database {1}'.format(
-                    self.osqlcliclient_main.server_name,
-                    self.osqlcliclient_main.database))
+                    self.osqlcliclient_main.db_ip,
+                    self.osqlcliclient_main.sid))
                 exit(1)
         except Exception as e:
             self.logger.error(u'Error in reset : {0}'.format(e.message))
@@ -650,10 +649,10 @@ class OsqlCli(object):
 
     def get_prompt(self, string):
         string = string.replace('\\t', self.now.strftime('%x %X'))
-        string = string.replace('\\u', self.osqlcliclient_main.user_name or '(none)')
-        string = string.replace('\\h', self.osqlcliclient_main.prompt_host or '(none)')
-        string = string.replace('\\d', self.osqlcliclient_main.database or '(none)')
-        string = string.replace('\\p', str(self.osqlcliclient_main.prompt_port) or '(none)')
+        string = string.replace('\\u', self.osqlcliclient_main.db_user or '(none)')
+        string = string.replace('\\h', self.osqlcliclient_main.db_ip or '(none)')
+        string = string.replace('\\d', self.osqlcliclient_main.sid or '(none)')
+        string = string.replace('\\p', str(self.osqlcliclient_main.port) or '(none)')
         string = string.replace('\\n', "\n")
         return string
 

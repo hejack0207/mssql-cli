@@ -78,13 +78,10 @@ class OsqlCliClient(object):
     def _execute_query(self, query):
         pass
 
-    def clone(self, sqltoolsclient=None):
+    def clone(self):
         cloned_osqlcli_client = copy.copy(self)
         cloned_osqlcli_client.owner_uri = generate_owner_uri()
         cloned_osqlcli_client.is_connected = False
-
-        if sqltoolsclient:
-            cloned_osqlcli_client.sql_tools_client = sqltoolsclient
 
         return cloned_osqlcli_client
 
