@@ -24,13 +24,13 @@ def generate_owner_uri():
 
 class OsqlCliClient(object):
 
-    def __init__(self, osqlcli_options, sql_tools_client, owner_uri=None, **kwargs):
+    def __init__(self, osqlcli_options, owner_uri=None, **kwargs):
 
-        self.db_ip=osqlcli_options.db_ip
+        self.db_ip=osqlcli_options.server
         self.port=osqlcli_options.port
-        self.sid=osqlcli_options.sid
-        self.db_user=osqlcli_options.db_user
-        self.db_password=osqlcli_options.db_password
+        self.sid=osqlcli_options.database
+        self.db_user=osqlcli_options.username
+        self.db_password=osqlcli_options.password
 
         self.conn_str='oracle+cx_oracle://'+self.db_user+':'+self.db_password+'@'+self.db_ip+':'+str(self.port)+'/'+self.sid
         if self.db_user == 'SYS' or self.db_user == 'sys' :
@@ -52,6 +52,9 @@ class OsqlCliClient(object):
         self.conn = self.engine.connect()
 
     def execute_query(self, query):
+        s=text(sql)
+        r = conn.execute(s)
+        rdata = r.fetchall()
         # Try to run first as special command
         try:
             for rows, columns, status, statement, is_error in special.execute(self, query):
@@ -113,100 +116,6 @@ class OsqlCliClient(object):
             cloned_osqlcli_client.sql_tools_client = sqltoolsclient
 
         return cloned_osqlcli_client
-
-    def _execute_connection_request_with(self, connection_params):
-        if self.is_connected:
-            return self.owner_uri, []
-
-        connection_request = self.sql_tools_client.create_request(self.sql_tools_client.CONNECTION_REQUEST,
-                                                                  connection_params,
-                                                                  self.owner_uri)
-        connection_request.execute()
-        error_messages = []
-        response = None
-
-        while not connection_request.completed():
-            response = connection_request.get_response()
-
-            if isinstance(response, connectionservice.ConnectionCompleteEvent):
-                if response.error_message:
-                    error_messages.append(u'Error message: {}'.format(response.error_message))
-                if response.messages:
-                    logger.error(response.messages)
-            else:
-                time.sleep(time_wait_if_no_response)
-
-        if response and response.connection_id:
-            assert response.owner_uri == self.owner_uri
-            self.is_connected = True
-            self.server_version = response.server_version
-            self.server_edition = response.server_edition
-            self.is_cloud = response.is_cloud
-
-            logger.info(
-                u'Connection Successful. Connection Id {0}'.format(
-                    response.connection_id))
-
-            return self.owner_uri, error_messages
-
-        return None, error_messages
-
-    def _execute_query_execute_request_for(self, query):
-        if not self.is_connected:
-            click.secho(u'No connection established with the server.',
-                        err=True,
-                        fg='yellow')
-            exit(1)
-
-        query_request = self.sql_tools_client.create_request(self.sql_tools_client.QUERY_EXECUTE_STRING_REQUEST,
-                                                             {u'OwnerUri': self.owner_uri,
-                                                              u'Query': query},
-                                                             self.owner_uri)
-        query_request.execute()
-        query_response = None
-        query_messages = []
-        while not query_request.completed():
-            query_response = query_request.get_response()
-            if isinstance(query_response, queryservice.QueryMessageEvent):
-                query_messages.append(query_response)
-            else:
-                sleep(time_wait_if_no_response)
-
-        query_has_exception = query_response.exception_message
-        query_has_error_messages = query_messages[0].is_error if query_messages else False
-        query_has_batch_error = query_response.batch_summaries[0].has_error \
-            if hasattr(query_response, 'batch_summaries') else False
-
-        query_failed = query_has_exception or query_has_batch_error or query_has_error_messages
-
-        return query_response, query_messages, query_failed
-
-    def _execute_query_subset_request_for(self, query_response):
-        subset_responses_and_summaries = []
-        for result_set_summary in query_response.batch_summaries[0].result_set_summaries:
-            query_subset_request = self.sql_tools_client.create_request(self.sql_tools_client.QUERY_SUBSET_REQUEST,
-                                                                        {u'OwnerUri': query_response.owner_uri,
-                                                                         u'BatchIndex': result_set_summary.batch_id,
-                                                                         u'ResultSetIndex': result_set_summary.id,
-                                                                         u'RowsStartIndex': 0,
-                                                                         u'RowCount': result_set_summary.row_count},
-                                                                        self.owner_uri)
-
-            query_subset_request.execute()
-
-            query_subset_response = None
-            while not query_subset_request.completed():
-                query_subset_response = query_subset_request.get_response()
-                if not query_subset_response:
-                    sleep(time_wait_if_no_response)
-
-            query_subset_had_error = query_subset_request.error_message \
-                if hasattr(query_subset_request, 'error_message') else False
-
-            subset_responses_and_summaries.append((query_subset_response, result_set_summary, query_subset_had_error))
-
-        return subset_responses_and_summaries
-
 
     def _generate_query_results_to_tuples(self, query, message, column_info=None, result_rows=None, is_error=False):
         # Returns a generator of rows, columns, status(rows affected) or

@@ -8,7 +8,7 @@ from applicationinsights.exceptions import enable
 
 import osqlcli.decorators as decorators
 
-DIAGNOSTICS_TELEMETRY_ENV_NAME = 'MSSQL_CLI_DIAGNOSTICS_TELEMETRY'
+DIAGNOSTICS_TELEMETRY_ENV_NAME = 'OSQL_CLI_DIAGNOSTICS_TELEMETRY'
 INSTRUMENTATION_KEY = 'AIF-5574968e-856d-40d2-af67-c89a14e76412'
 
 try:

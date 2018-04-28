@@ -10,8 +10,8 @@ def get_executable_path():
         Find osqltoolsservice executable relative to this package.
     """
     # Debug mode.
-    if 'MSSQLTOOLSSERVICE_PATH' in os.environ:
-        osqltoolsservice_base_path = os.environ['MSSQLTOOLSSERVICE_PATH']
+    if 'OSQLTOOLSSERVICE_PATH' in os.environ:
+        osqltoolsservice_base_path = os.environ['OSQLTOOLSSERVICE_PATH']
     else:
         # Retrieve path to program relative to this package.
         osqltoolsservice_base_path = os.path.abspath(

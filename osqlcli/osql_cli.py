@@ -187,8 +187,7 @@ class OsqlCli(object):
         self.cli = None
         self.integrated_auth = options.integrated_auth
 
-        self.sqltoolsclient = SqlToolsClient(enable_logging=options.enable_sqltoolsservice_logging)
-        self.osqlcliclient_main = OsqlCliClient(options, self.sqltoolsclient)
+        self.osqlcliclient_main = OsqlCliClient(options)
 
     def __del__(self):
         # Shut-down sqltoolsservice
@@ -369,7 +368,7 @@ class OsqlCli(object):
         if not self.less_chatty:
             print('Version:', __version__)
             print('Mail: sqlcli@microsoft.com')
-            print('Home: http://github.com/dbcli/osql-cli')
+            print('Home: http://github.com/hejack0207/osql-cli')
 
         try:
             while True:

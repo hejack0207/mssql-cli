@@ -16,10 +16,10 @@ import osqlcli.decorators as decorators
 
 PRODUCT_NAME = 'osqlcli'
 TELEMETRY_VERSION = '0.0.1'
-MSSQL_CLI_TELEMETRY_FILE = 'osqlcli_telemetry.log'
-MSSQL_CLI_TELEMETRY_OPT_OUT = 'MSSQL_CLI_TELEMETRY_OPTOUT'
-MSSQL_CLI_IN_DOCKER = 'MSSQL_CLI_IN_DOCKER'
-MSSQL_CLI_TELEMETRY_ID_FILE = 'osqlcli_telemetry_id.txt'
+OSQL_CLI_TELEMETRY_FILE = 'osqlcli_telemetry.log'
+OSQL_CLI_TELEMETRY_OPT_OUT = 'OSQL_CLI_TELEMETRY_OPTOUT'
+OSQL_CLI_IN_DOCKER = 'OSQL_CLI_IN_DOCKER'
+OSQL_CLI_TELEMETRY_ID_FILE = 'osqlcli_telemetry_id.txt'
 
 decorators.is_diagnostics_mode = telemetry_core.in_diagnostic_mode
 
@@ -27,7 +27,7 @@ decorators.is_diagnostics_mode = telemetry_core.in_diagnostic_mode
 def _user_agrees_to_telemetry(func):
     @wraps(func)
     def _wrapper(*args, **kwargs):
-        user_opted_out = os.environ.get(MSSQL_CLI_TELEMETRY_OPT_OUT, False)
+        user_opted_out = os.environ.get(OSQL_CLI_TELEMETRY_OPT_OUT, False)
         if user_opted_out in ['True', 'true', '1']:
             return
         return func(*args, **kwargs)
@@ -88,7 +88,7 @@ class TelemetrySession(object):
             'Context.Default.SQLTools.ExeVersion': _get_osql_cli_version(),
             'Context.Default.SQLTools.OS.Type': platform.system().lower(),
             'Context.Default.SQLTools.OS.Version': platform.release().lower(),
-            'Context.Default.SQLTools.IsDocker': bool(os.environ.get(MSSQL_CLI_IN_DOCKER, False)),
+            'Context.Default.SQLTools.IsDocker': bool(os.environ.get(OSQL_CLI_IN_DOCKER, False)),
             'Context.Default.SQLTools.User.Id': _get_user_id(),
             'Context.Default.SQLTools.User.IsMicrosoftInternal': 'False',
             'Context.Default.SQLTools.User.IsOptedIn': 'True',
@@ -142,7 +142,7 @@ def upload_payload(payload, service_endpoint_uri, separate_process):
 def output_payload_to_file(payload):
     if payload:
         config_dir = os.path.dirname(config.config_location())
-        telemetry_file_path = os.path.join(config_dir, MSSQL_CLI_TELEMETRY_FILE)
+        telemetry_file_path = os.path.join(config_dir, OSQL_CLI_TELEMETRY_FILE)
 
         # Telemetry log file will only contain data points from the most recent session.
         with open(telemetry_file_path, "w+") as telemetry_file:
@@ -169,7 +169,7 @@ def _get_osql_cli_version():
 @decorators.suppress_all_exceptions(fallback_return='')
 def _get_user_id():
     config_dir = config.config_location()
-    full_path = os.path.join(config_dir, MSSQL_CLI_TELEMETRY_ID_FILE)
+    full_path = os.path.join(config_dir, OSQL_CLI_TELEMETRY_ID_FILE)
 
     if os.path.exists(full_path):
         with open(full_path, 'r') as file:
@@ -193,7 +193,7 @@ def _generate_user_id():
 
 def _get_env_string():
     return _remove_cmd_chars(_remove_symbols(str([v for v in os.environ
-                                                  if v.startswith('MSSQL_CLI_')])))
+                                                  if v.startswith('OSQL_CLI_')])))
 
 
 def _get_shell_type():
