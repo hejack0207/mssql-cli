@@ -570,10 +570,7 @@ class OsqlCli(object):
         Reset osqlcli client with a new sql tools service and connection.
         """
         try:
-            self.sqltoolsclient.shutdown()
-            self.sqltoolsclient = SqlToolsClient()
-
-            self.osqlcliclient_main = self.osqlcliclient_main.clone(self.sqltoolsclient)
+            self.osqlcliclient_main = self.osqlcliclient_main.clone()
 
             if not self.osqlcliclient_main.connect_to_database():
                 click.secho('Unable reconnect to server {0}; database {1}.'.format(
