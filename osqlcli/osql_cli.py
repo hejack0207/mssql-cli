@@ -190,9 +190,7 @@ class OsqlCli(object):
         self.osqlcliclient_main = OsqlCliClient(options)
 
     def __del__(self):
-        # Shut-down sqltoolsservice
-        if self.sqltoolsclient:
-            self.sqltoolsclient.shutdown()
+        pass
 
     def write_to_file(self, pattern, **_):
         if not pattern:
