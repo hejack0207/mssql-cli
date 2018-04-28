@@ -34,17 +34,16 @@ class OsqlCliClient(object):
 
         self.conn_str='oracle+cx_oracle://'+self.db_user+':'+self.db_password+'@'+self.db_ip+':'+str(self.port)+'/'+self.sid
         if self.db_user == 'SYS' or self.db_user == 'sys' :
-            conn_str += '?mode=2'
+            self.conn_str += '?mode=2'
 
-        logger.info(u'Initialized OsqlCliClient with owner Uri {}'.format(self.owner_uri))
+        logger.info(u'Initialized OsqlCliClient with owner Uri {}'.format(self.conn_str))
 
     def get_base_connection_params(self):
-        return {u'ServerName': self.server_name,
-                u'DatabaseName': self.database,
-                u'UserName': self.user_name,
-                u'Password': self.password,
-                u'AuthenticationType': self.authentication_type,
-                u'OwnerUri': self.owner_uri
+        return {u'ServerName': self.db_ip,
+                u'DatabaseName': self.sid,
+                u'UserName': self.db_user,
+                u'Password': self.db_password,
+                u'OwnerUri': self.conn_str
                 }
 
     def connect_to_database(self):
@@ -52,8 +51,8 @@ class OsqlCliClient(object):
         self.conn = self.engine.connect()
 
     def execute_query(self, query):
-        s=text(sql)
-        r = conn.execute(s)
+        s=text(query)
+        r = self.conn.execute(s)
         rdata = r.fetchall()
         # Try to run first as special command
         try:
@@ -77,35 +76,7 @@ class OsqlCliClient(object):
                         continue
 
     def _execute_query(self, query):
-        query_response, query_messages, query_had_error = self._execute_query_execute_request_for(query)
-
-        if self._exception_found_in(query_response):
-            yield self._generate_query_results_to_tuples(query=query,
-                                                         message=query_response.exception_message,
-                                                         is_error=query_had_error)
-            return
-
-        if self._no_results_found_in(query_response) or self._no_rows_found_in(query_response):
-            query_message = query_messages[0].message if query_messages else u''
-            yield self._generate_query_results_to_tuples(query=query,
-                                                         message=query_message,
-                                                         is_error=query_had_error)
-        else:
-            query_subset_responses_and_summaries = self._execute_query_subset_request_for(query_response)
-
-            for query_subset_response, result_set_summary, query_subset_error in query_subset_responses_and_summaries:
-                if self._error_message_found_in(query_subset_response):
-                    yield self._generate_query_results_to_tuples(query=query,
-                                                                 message=query_subset_response.error_message,
-                                                                 is_error=query_subset_error)
-
-                query_message_for_current_result_set = query_messages[result_set_summary.id].message \
-                    if query_messages else u''
-
-                yield self._generate_query_results_to_tuples(column_info=result_set_summary.column_info,
-                                                             result_rows=query_subset_response.rows,
-                                                             query=query,
-                                                             message=query_message_for_current_result_set)
+        pass
 
     def clone(self, sqltoolsclient=None):
         cloned_osqlcli_client = copy.copy(self)
