@@ -7,10 +7,12 @@ import time
 import uuid
 
 from osqlcli import osqlqueries
-from osqlcli.jsonrpc.contracts import connectionservice, queryexecutestringservice as queryservice
 from osqlcli.packages import special
 from osqlcli.packages.parseutils.meta import ForeignKey
 from time import sleep
+
+from sqlalchemy import create_engine
+from sqlalchemy.sql import text
 
 logger = logging.getLogger(u'osqlcli.osqlcliclient')
 time_wait_if_no_response = 0.05
@@ -24,32 +26,15 @@ class OsqlCliClient(object):
 
     def __init__(self, osqlcli_options, sql_tools_client, owner_uri=None, **kwargs):
 
-        self.server_name = osqlcli_options.server
-        if ',' in osqlcli_options.server:
-            self.prompt_host, self.prompt_port = self.server_name.split(',')
-        else:
-            self.prompt_host = osqlcli_options.server
-            self.prompt_port = 1433
+        self.db_ip=osqlcli_options.db_ip
+        self.port=osqlcli_options.port
+        self.sid=osqlcli_options.sid
+        self.db_user=osqlcli_options.db_user
+        self.db_password=osqlcli_options.db_password
 
-        self.user_name = osqlcli_options.username
-        self.password = osqlcli_options.password
-        self.authentication_type = u'Integrated' if osqlcli_options.integrated_auth else u'SqlLogin'
-        self.database = osqlcli_options.database
-        self.encrypt = osqlcli_options.encrypt
-        self.trust_server_certificate = osqlcli_options.trust_server_certificate
-        self.connection_timeout = osqlcli_options.connection_timeout
-        self.application_intent = osqlcli_options.application_intent
-        self.multi_subnet_failover = osqlcli_options.multi_subnet_failover
-        self.packet_size = osqlcli_options.packet_size
-
-        self.owner_uri = owner_uri if owner_uri else generate_owner_uri()
-        self.sql_tools_client = sql_tools_client
-        self.is_connected = False
-        self.server_version = None
-        self.server_edition = None
-        self.is_cloud = False
-
-        self.extra_params = {k: v for k, v in kwargs.items()}
+        self.conn_str='oracle+cx_oracle://'+self.db_user+':'+self.db_password+'@'+self.db_ip+':'+str(self.port)+'/'+self.sid
+        if self.db_user == 'SYS' or self.db_user == 'sys' :
+            conn_str += '?mode=2'
 
         logger.info(u'Initialized OsqlCliClient with owner Uri {}'.format(self.owner_uri))
 
@@ -62,31 +47,9 @@ class OsqlCliClient(object):
                 u'OwnerUri': self.owner_uri
                 }
 
-    def add_optional_connection_params(self, base_connection_params):
-        if self.encrypt:
-            base_connection_params[u'Encrypt'] = self.encrypt
-        if self.trust_server_certificate:
-            base_connection_params[u'TrustServerCertificate'] = self.trust_server_certificate
-        if self.connection_timeout:
-            base_connection_params[u'ConnectTimeout'] = self.connection_timeout
-        if self.application_intent:
-            base_connection_params[u'ApplicationIntent'] = self.application_intent
-        if self.multi_subnet_failover:
-            base_connection_params[u'MultiSubnetFailover'] = self.multi_subnet_failover
-        if self.packet_size:
-            base_connection_params[u'PacketSize'] = self.packet_size
-
-        base_connection_params.update(self.extra_params)
-
-        return base_connection_params
-
     def connect_to_database(self):
-        connection_params = self.get_base_connection_params()
-        connection_params = self.add_optional_connection_params(connection_params)
-
-        owner_uri, error_messages = self._execute_connection_request_with(connection_params)
-
-        return owner_uri, error_messages
+        self.engine = create_engine(self.conn_str, echo=False)
+        self.conn = self.engine.connect()
 
     def execute_query(self, query):
         # Try to run first as special command
@@ -244,17 +207,6 @@ class OsqlCliClient(object):
 
         return subset_responses_and_summaries
 
-    def _error_message_found_in(self, query_subset_response):
-        return query_subset_response.error_message
-
-    def _exception_found_in(self, query_response):
-        return query_response.exception_message
-
-    def _no_results_found_in(self, query_response):
-        return not query_response.batch_summaries[0].result_set_summaries
-
-    def _no_rows_found_in(self, query_response):
-        return query_response.batch_summaries[0].result_set_summaries[0].row_count == 0
 
     def _generate_query_results_to_tuples(self, query, message, column_info=None, result_rows=None, is_error=False):
         # Returns a generator of rows, columns, status(rows affected) or
@@ -332,5 +284,5 @@ class OsqlCliClient(object):
                 yield ForeignKey(*row)
 
     def shutdown(self):
-        self.sql_tools_client.shutdown()
+        self.conn.close()
         logger.info(u'Shutdown OsqlCliClient')
