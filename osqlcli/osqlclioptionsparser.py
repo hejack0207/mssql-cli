@@ -8,6 +8,7 @@ OSQL_CLI_USER = u'OSQL_CLI_USER'
 OSQL_CLI_PASSWORD = u'OSQL_CLI_PASSWORD'
 OSQL_CLI_DATABASE = u'OSQL_CLI_DATABASE'
 OSQL_CLI_SERVER = u'OSQL_CLI_SERVER'
+OSQL_CLI_INSTANCE = u'OSQL_CLI_INSTANCE'
 OSQL_CLI_PORT = u'OSQL_CLI_PORT'
 OSQL_CLI_ROW_LIMIT = u'OSQL_CLI_ROW_LIMIT'
 OSQL_CLI_RC = u'OSQL_CLI_RC'
@@ -39,6 +40,13 @@ def create_parser():
         default=os.environ.get(OSQL_CLI_DATABASE, u'master'),
         metavar=u'',
         help=u'database name to connect to.')
+
+    args_parser.add_argument(
+        u'-i', u'--instance',
+        dest=u'instance',
+        default=os.environ.get(OSQL_CLI_INSTANCE, u'orcl'),
+        metavar=u'',
+        help=u'instance name to connect to.')
 
     args_parser.add_argument(
         u'-S', u'--server',

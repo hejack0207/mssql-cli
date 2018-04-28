@@ -28,7 +28,7 @@ class OsqlCliClient(object):
 
         self.db_ip=osqlcli_options.server
         self.port=osqlcli_options.port
-        self.sid=osqlcli_options.database
+        self.sid=osqlcli_options.instance
         self.db_user=osqlcli_options.username
         self.db_password=osqlcli_options.password
 
