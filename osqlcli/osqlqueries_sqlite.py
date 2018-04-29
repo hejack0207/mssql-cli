@@ -4,9 +4,7 @@ def get_schemas():
     :return: string
     """
     return '''
-        SELECT name
-        FROM sys.schemas
-        ORDER BY 1'''
+        SELECT "default" as name '''
 
 
 def get_databases():
@@ -15,9 +13,7 @@ def get_databases():
     :return: string
     """
     return '''
-        Select name
-        FROM sys.databases
-        ORDER BY 1'''
+        SELECT "default" as name '''
 
 
 def get_table_columns():
@@ -101,8 +97,8 @@ def get_tables():
     :return: string
     """
     return '''
-        SELECT  'default',
-                name
+        SELECT  'default' as table_schema,
+                name as table_name
         FROM sqlite_master
         WHERE type = 'table' '''
 
