@@ -6,7 +6,7 @@ import sqlparse
 import time
 import uuid
 
-from osqlcli import osqlqueries
+from osqlcli import osqlqueries_sqlite as osqlqueries
 from osqlcli.packages import special
 from osqlcli.packages.parseutils.meta import ForeignKey
 from time import sleep
@@ -79,7 +79,7 @@ class OsqlCliClient(object):
         for row in curs.fetchall():
             rows.append(row)
 
-        return (rows,colnames,None,query,False)
+        yield rows, colnames, None, query, False
 
     def clone(self):
         cloned_osqlcli_client = copy.copy(self)
@@ -87,19 +87,6 @@ class OsqlCliClient(object):
         cloned_osqlcli_client.is_connected = False
 
         return cloned_osqlcli_client
-
-    def _generate_query_results_to_tuples(self, query, message, column_info=None, result_rows=None, is_error=False):
-        # Returns a generator of rows, columns, status(rows affected) or
-        # message, sql (the query), is_error
-        if is_error:
-            return (), None, message, query, is_error
-
-        columns = [col.column_name for col in column_info] if column_info else None
-
-        rows = ([[cell.display_value for cell in result_row.result_cells]
-                 for result_row in result_rows]) if result_rows else ()
-
-        return rows, columns, message, query, is_error
 
     def get_schemas(self):
         """ Returns a list of schema names"""
