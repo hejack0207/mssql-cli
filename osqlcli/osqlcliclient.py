@@ -30,15 +30,6 @@ class OsqlCliClient(object):
         self.db_user=osqlcli_options.username
         self.db_password=osqlcli_options.password
 
-        if "oracle" == self.dbms:
-            self.conn_str='oracle+cx_oracle://'+self.db_user+':'+self.db_password+'@'+self.db_ip+':'+str(self.port)+'/'+self.sid
-            if self.db_user == 'SYS' or self.db_user == 'sys' :
-                self.conn_str += '?mode=2'
-        elif "sqlite" == self.dbms:
-            pass
-
-        logger.info(u'Initialized OsqlCliClient with owner Uri {}'.format(self.conn_str))
-
     def get_base_connection_params(self):
         return {u'ServerName': self.db_ip,
                 u'DatabaseName': self.sid,
@@ -54,6 +45,8 @@ class OsqlCliClient(object):
         elif "sqlite" == self.dbms:
             import sqlite3
             self.conn=sqlite3.connect("/tmp/database")
+
+        return "conn_str",None
 
     def execute_query(self, query):
 
@@ -79,7 +72,14 @@ class OsqlCliClient(object):
                         continue
 
     def _execute_query(self, query):
-        pass
+        curs = self.conn.cursor()
+        curs.execute(query)
+        colnames = [desc[0] for desc in curs.description]
+        rows = []
+        for row in curs.fetchall():
+            rows.append(row)
+
+        return (rows,colnames,None,query,False)
 
     def clone(self):
         cloned_osqlcli_client = copy.copy(self)
@@ -165,3 +165,4 @@ class OsqlCliClient(object):
 
     def shutdown(self):
         logger.info(u'Shutdown OsqlCliClient')
+        self.conn.close()

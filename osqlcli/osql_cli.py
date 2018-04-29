@@ -136,7 +136,7 @@ class OsqlCli(object):
         self.multi_line = c['main'].as_bool('multi_line')
         self.multiline_mode = c['main'].get('multi_line_mode', 'tsql')
         self.vi_mode = c['main'].as_bool('vi')
-        self.auto_expand = options.auto_vertical_output or c['main']['expand'] == 'auto'
+        self.auto_expand = c['main']['expand'] == 'auto'
         self.expanded_output = c['main']['expand'] == 'always'
         self.prompt_format = options.prompt or c['main'].get('prompt', self.default_prompt)
         if options.row_limit is not None:
@@ -184,7 +184,6 @@ class OsqlCli(object):
 
         self.eventloop = create_eventloop()
         self.cli = None
-        self.integrated_auth = options.integrated_auth
 
         self.osqlcliclient_main = OsqlCliClient(options)
 
