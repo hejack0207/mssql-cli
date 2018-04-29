@@ -11,9 +11,6 @@ from osqlcli.packages import special
 from osqlcli.packages.parseutils.meta import ForeignKey
 from time import sleep
 
-from sqlalchemy import create_engine
-from sqlalchemy.sql import text
-
 logger = logging.getLogger(u'osqlcli.osqlcliclient')
 time_wait_if_no_response = 0.05
 
@@ -47,13 +44,10 @@ class OsqlCliClient(object):
                 }
 
     def connect_to_database(self):
-        self.engine = create_engine(self.conn_str, echo=False)
-        self.conn = self.engine.connect()
+        pass
 
     def execute_query(self, query):
-        s=text(query)
-        r = self.conn.execute(s)
-        rdata = r.fetchall()
+
         # Try to run first as special command
         try:
             for rows, columns, status, statement, is_error in special.execute(self, query):
@@ -161,5 +155,4 @@ class OsqlCliClient(object):
                 yield ForeignKey(*row)
 
     def shutdown(self):
-        self.conn.close()
         logger.info(u'Shutdown OsqlCliClient')
