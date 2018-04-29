@@ -6,6 +6,7 @@ from .config import config_location
 
 OSQL_CLI_USER = u'OSQL_CLI_USER'
 OSQL_CLI_PASSWORD = u'OSQL_CLI_PASSWORD'
+OSQL_CLI_DBMS = u'OSQL_CLI_DBMS'
 OSQL_CLI_DATABASE = u'OSQL_CLI_DATABASE'
 OSQL_CLI_SERVER = u'OSQL_CLI_SERVER'
 OSQL_CLI_INSTANCE = u'OSQL_CLI_INSTANCE'
@@ -33,6 +34,13 @@ def create_parser():
         default=os.environ.get(OSQL_CLI_PASSWORD, None),
         metavar=u'',
         help=u'If not supplied, defaults to value in environment variable OSQL_CLI_PASSWORD.')
+
+    args_parser.add_argument(
+        u'-s', u'--dbms',
+        dest=u'dbms',
+        default=os.environ.get(OSQL_CLI_DBMS, u'sqlite'),
+        metavar=u'',
+        help=u'dbms name like sqlite,oracle,mysql.')
 
     args_parser.add_argument(
         u'-d', u'--database',

@@ -23,15 +23,19 @@ class OsqlCliClient(object):
 
     def __init__(self, osqlcli_options, owner_uri=None, **kwargs):
 
+        self.dbms=osqlcli_options.dbms
         self.db_ip=osqlcli_options.server
         self.port=osqlcli_options.port
         self.sid=osqlcli_options.instance
         self.db_user=osqlcli_options.username
         self.db_password=osqlcli_options.password
 
-        self.conn_str='oracle+cx_oracle://'+self.db_user+':'+self.db_password+'@'+self.db_ip+':'+str(self.port)+'/'+self.sid
-        if self.db_user == 'SYS' or self.db_user == 'sys' :
-            self.conn_str += '?mode=2'
+        if "oracle" == self.dbms:
+            self.conn_str='oracle+cx_oracle://'+self.db_user+':'+self.db_password+'@'+self.db_ip+':'+str(self.port)+'/'+self.sid
+            if self.db_user == 'SYS' or self.db_user == 'sys' :
+                self.conn_str += '?mode=2'
+        elif "sqlite" == self.dbms:
+            pass
 
         logger.info(u'Initialized OsqlCliClient with owner Uri {}'.format(self.conn_str))
 
@@ -44,7 +48,12 @@ class OsqlCliClient(object):
                 }
 
     def connect_to_database(self):
-        pass
+        if "oracle" == self.dbms:
+            import cx_Oracle
+            self.conn=cx_Oracle.connect(self.db_user,self.db_password,"{}/{}".format(self.db_ip,self.sid))
+        elif "sqlite" == self.dbms:
+            import sqlite3
+            self.conn=sqlite3.connect("/tmp/database")
 
     def execute_query(self, query):
 
