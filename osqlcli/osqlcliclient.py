@@ -29,14 +29,6 @@ class OsqlCliClient(object):
         self.db_user=osqlcli_options.username
         self.db_password=osqlcli_options.password
 
-    def get_base_connection_params(self):
-        return {u'ServerName': self.db_ip,
-                u'DatabaseName': self.sid,
-                u'UserName': self.db_user,
-                u'Password': self.db_password,
-                u'OwnerUri': self.conn_str
-                }
-
     def connect_to_database(self):
         if "oracle" == self.dbms:
             import cx_Oracle
