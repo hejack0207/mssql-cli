@@ -64,6 +64,7 @@ class CompletionRefresher(object):
 
         while 1:
             for refresher in self.refreshers.values():
+                logger.debug("refresher:{}".format(refresher.__name__))
                 refresher(completer, executor)
                 if self._restart_refresh.is_set():
                     self._restart_refresh.clear()
@@ -121,6 +122,7 @@ def refresh_views(completer, osqlcliclient):
 @refresher('databases')
 @decorators.suppress_all_exceptions()
 def refresh_databases(completer, osqlcliclient):
+    logger.debug("refresh_databases")
     completer.extend_database_names(osqlcliclient.get_databases())
 
 
