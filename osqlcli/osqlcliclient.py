@@ -6,7 +6,6 @@ import sqlparse
 import time
 import uuid
 
-from osqlcli import osqlqueries_sqlite as osqlqueries
 from osqlcli.packages import special
 from osqlcli.packages.parseutils.meta import ForeignKey
 from time import sleep
@@ -41,9 +40,11 @@ class OsqlCliClient(object):
     def connect_to_database(self):
         if "oracle" == self.dbms:
             import cx_Oracle
+            from osqlcli import osqlqueries_oracle as osqlqueries
             self.conn=cx_Oracle.connect(self.db_user,self.db_password,"{}/{}".format(self.db_ip,self.sid))
         elif "sqlite" == self.dbms:
             import sqlite3
+            from osqlcli import osqlqueries_sqlite as osqlqueries
             self.conn=sqlite3.connect("/tmp/database")
 
         return "conn_str",None
