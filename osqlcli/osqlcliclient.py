@@ -39,6 +39,7 @@ class OsqlCliClient(object):
             from osqlcli import osqlqueries_sqlite as osqlqueries
             self.conn=sqlite3.connect("/tmp/database")
 
+        self.osqlqry = osqlqueries
         return "conn_str",None
 
     def execute_query(self, query):
@@ -83,21 +84,21 @@ class OsqlCliClient(object):
 
     def get_schemas(self):
         """ Returns a list of schema names"""
-        query = osqlqueries.get_schemas()
+        query = self.osqlqry.get_schemas()
         logger.info(u'Schemas query: {0}'.format(query))
         for tabular_result in self.execute_query(query):
             return [x[0] for x in tabular_result[0]]
 
     def get_databases(self):
         """ Returns a list of database names"""
-        query = osqlqueries.get_databases()
+        query = self.osqlqry.get_databases()
         logger.info(u'Databases query: {0}'.format(query))
         for tabular_result in self.execute_query(query):
             return [x[0] for x in tabular_result[0]]
 
     def get_tables(self):
         """ Yields (schema_name, table_name) tuples"""
-        query = osqlqueries.get_tables()
+        query = self.osqlqry.get_tables()
         logger.info(u'Tables query: {0}'.format(query))
         for tabular_result in self.execute_query(query):
             for row in tabular_result[0]:
@@ -105,7 +106,7 @@ class OsqlCliClient(object):
 
     def get_table_columns(self):
         """ Yields (schema_name, table_name, column_name, data_type, column_default) tuples"""
-        query = osqlqueries.get_table_columns()
+        query = self.osqlqry.get_table_columns()
         logger.info(u'Table columns query: {0}'.format(query))
         for tabular_result in self.execute_query(query):
             for row in tabular_result[0]:
@@ -113,7 +114,7 @@ class OsqlCliClient(object):
 
     def get_views(self):
         """ Yields (schema_name, table_name) tuples"""
-        query = osqlqueries.get_views()
+        query = self.osqlqry.get_views()
         logger.info(u'Views query: {0}'.format(query))
         for tabular_result in self.execute_query(query):
             for row in tabular_result[0]:
@@ -121,7 +122,7 @@ class OsqlCliClient(object):
 
     def get_view_columns(self):
         """ Yields (schema_name, table_name, column_name, data_type, column_default) tuples"""
-        query = osqlqueries.get_view_columns()
+        query = self.osqlqry.get_view_columns()
         logger.info(u'View columns query: {0}'.format(query))
         for tabular_result in self.execute_query(query):
             for row in tabular_result[0]:
@@ -129,7 +130,7 @@ class OsqlCliClient(object):
 
     def get_user_defined_types(self):
         """ Yields (schema_name, type_name) tuples"""
-        query = osqlqueries.get_user_defined_types()
+        query = self.osqlqry.get_user_defined_types()
         logger.info(u'UDTs query: {0}'.format(query))
         for tabular_result in self.execute_query(query):
             for row in tabular_result[0]:
@@ -137,7 +138,7 @@ class OsqlCliClient(object):
 
     def get_foreign_keys(self):
         """ Yields (parent_schema, parent_table, parent_column, child_schema, child_table, child_column) typles"""
-        query = osqlqueries.get_foreignkeys()
+        query = self.osqlqry.get_foreignkeys()
         logger.info(u'Foreign keys query: {0}'.format(query))
         for tabular_result in self.execute_query(query):
             for row in tabular_result[0]:
