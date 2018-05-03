@@ -12,7 +12,7 @@ def get_databases():
     :return: string
     """
     return '''
-        Select 'databasename' as name from dual'''
+        Select '' as name from dual where 1=2'''
 
 
 def get_table_columns():
