@@ -11,7 +11,7 @@ import hashlib
 from functools import wraps
 
 # module global variable
-is_diagnostics_mode = False
+is_diagnostics_mode = True
 
 
 # internal functions

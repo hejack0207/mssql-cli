@@ -1,3 +1,6 @@
+import logging
+logger = logging.getLogger(u'osqlcli.osqlqueries')
+
 def get_schemas():
     """
     Query string to retrieve schema names.
