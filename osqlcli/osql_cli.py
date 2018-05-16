@@ -328,7 +328,7 @@ class OsqlCli(object):
                             click.echo('', file=f)  # extra newline
                     except IOError as e:
                         click.secho(str(e), err=True, fg='red')
-                else:
+                elif output is None or len(output) > 0:
                     click.echo_via_pager('\n'.join(output))
             except KeyboardInterrupt:
                 pass
@@ -506,6 +506,10 @@ class OsqlCli(object):
                 if not click.confirm('Do you want to continue?'):
                     click.secho("Aborted!", err=True, fg='red')
                     break
+            elif len(rows) == 0:
+                click.secho("No result returned!", err=True, fg='red')
+                break
+
 
             contains_secure_statement = security_words_found_in(sql)
 
