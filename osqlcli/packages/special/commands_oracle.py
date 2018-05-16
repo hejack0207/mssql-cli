@@ -13,13 +13,13 @@ logger = logging.getLogger('osqlcli.commands')
 
 @special_command('\\ld', '\\ld[+] [pattern]', 'List databases.')
 def list_databases(osqlcliclient, pattern, verbose):
-    base_query = u'select {0} from sys.databases'
+    base_query = u'select {0} from dual where 1=2'
     if verbose:
-        base_query = base_query.format('name, create_date, compatibility_level, collation_name')
+        base_query = base_query.format('\'\' as name, \'\' as create_date, \'\' as compatibility_level, \'\' as collation_name')
     else:
-        base_query = base_query.format('name')
+        base_query = base_query.format('\'\' as name')
     if pattern:
-        base_query += " where name like '%{0}%'".format(pattern)
+        base_query += " and name like '%{0}%'".format(pattern)
 
     return osqlcliclient.execute_query(base_query)
 
@@ -27,9 +27,9 @@ def list_databases(osqlcliclient, pattern, verbose):
 @special_command('\\ls', '\\ls[+] [pattern]', 'List schemas.')
 def list_schemas(osqlcliclient, pattern, verbose):
     pattern = pattern.replace('"', '')
-    base_query = u'select {0} from sys.schemas'
+    base_query = u'select {0} from all_users'
     if verbose:
-        base_query = base_query.format('name, schema_id, principal_id')
+        base_query = base_query.format('name, owner as schema_id, \'\' as principal_id')
     else:
         base_query = base_query.format('name')
     if pattern:
@@ -41,11 +41,11 @@ def list_schemas(osqlcliclient, pattern, verbose):
 @special_command('\\lt', '\\lt[+] [pattern]', 'List tables.')
 def list_tables(osqlcliclient, pattern, verbose):
     pattern = pattern.replace('"', '').split('.')[-1]
-    base_query = u'select {0} from INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE=\'BASE TABLE\''
+    base_query = u'select {0} from all_tables'
     if verbose:
         base_query = base_query.format('*')
     else:
-        base_query = base_query.format('table_schema, table_name')
+        base_query = base_query.format('owner as table_schema, table_name')
     if pattern:
         base_query += "and table_name like '%{0}%'".format(pattern)
 
@@ -55,12 +55,12 @@ def list_tables(osqlcliclient, pattern, verbose):
 @special_command('\\lv', '\\lv[+] [pattern]', 'List views.')
 def list_views(osqlcliclient, pattern, verbose):
     pattern = pattern.replace('"', '').split('.')[-1]
-    base_query = u'select {0} from INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE=\'VIEW\''
+    base_query = u'select {0} from all_views'
     if verbose:
-        base_query = base_query.format('table_catalog as catalog, table_schema as schema_name, '
+        base_query = base_query.format('\'\' as catalog, owner as schema_name, '
                                        'table_name as view_name')
     else:
-        base_query = base_query.format('table_schema as schema_name, table_name as view_name')
+        base_query = base_query.format('owner as schema_name, table_name as view_name')
     if pattern:
         base_query += "and table_name like '%{0}%'".format(pattern)
 
@@ -111,18 +111,17 @@ def list_functions(osqlcliclient, pattern, verbose):
     pattern = pattern.replace('"', '').split('.')[-1]
     base_query = '''
 SELECT {cols}
-  FROM sys.sql_modules m
-INNER JOIN sys.objects o
-        ON m.object_id=o.object_id
-WHERE type_desc like '%function%' {pattern}
+        from all_objects where object_type = 'FUNCTION'
+WHERE object_name like '%{pattern}%'
 '''
 
     if verbose:
-        base_query = base_query.format(cols='name, type_desc', pattern='{pattern}')
+        base_query = base_query.format(cols='object_name as name, object_type as type_desc', pattern='{pattern}')
     else:
-        base_query = base_query.format(cols='name', pattern='{pattern}')
+        base_query = base_query.format(cols='object_name as name', pattern='{pattern}')
+
     if pattern:
-        base_query = base_query.format(pattern='and name like \'%{0}%\''.format(pattern))
+        base_query = base_query.format(pattern=pattern)
     else:
         base_query = base_query.format(pattern='')
 

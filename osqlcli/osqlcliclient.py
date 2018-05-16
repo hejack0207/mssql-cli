@@ -34,7 +34,13 @@ class OsqlCliClient(object):
         if "oracle" == self.dbms:
             import cx_Oracle
             from osqlcli import osqlqueries_oracle as osqlqueries
-            self.conn=cx_Oracle.connect(self.db_user,self.db_password,"{}/{}".format(self.db_ip,self.sid))
+            import os
+            os.environ["NLS_LANG"] = "AMERICAN_AMERICA.UTF8"
+            if self.db_user.lower() == 'sys' or self.db_user.lower() == 'system':
+                self.conn=cx_Oracle.connect(self.db_user,self.db_password,"{}/{}".format(self.db_ip,self.sid),mode=cx_Oracle.SYSDBA)
+            else:
+                self.conn=cx_Oracle.connect(self.db_user,self.db_password,"{}/{}".format(self.db_ip,self.sid))
+
         elif "sqlite" == self.dbms:
             import sqlite3
             from osqlcli import osqlqueries_sqlite as osqlqueries
