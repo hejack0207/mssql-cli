@@ -30,6 +30,7 @@ class OsqlCliClient(object):
         self.db_password=osqlcli_options.password
 
     def connect_to_database(self):
+        logger.debug("running connect_to_database()")
         if "oracle" == self.dbms:
             import cx_Oracle
             from osqlcli import osqlqueries_oracle as osqlqueries
@@ -102,6 +103,7 @@ class OsqlCliClient(object):
 
     def get_databases(self):
         """ Returns a list of database names"""
+        logger.info(u'running get_databases()')
         query = self.osqlqry.get_databases()
         logger.info(u'Databases query: {0}'.format(query))
         for tabular_result in self.execute_query(query):

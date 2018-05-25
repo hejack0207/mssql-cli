@@ -105,7 +105,7 @@ def refresh_schemata(completer, osqlcliclient):
 
 
 @refresher('tables')
-@decorators.suppress_all_exceptions()
+@decorators.suppress_all_exceptions(True)
 def refresh_tables(completer, osqlcliclient):
     completer.extend_relations(osqlcliclient.get_tables(), kind='tables')
     completer.extend_columns(osqlcliclient.get_table_columns(), kind='tables')
@@ -120,9 +120,9 @@ def refresh_views(completer, osqlcliclient):
 
 
 @refresher('databases')
-@decorators.suppress_all_exceptions()
+@decorators.suppress_all_exceptions(True)
 def refresh_databases(completer, osqlcliclient):
-    logger.debug("refresh_databases")
+    logger.debug("refresh_databases:{}".format(osqlcliclient.dbms))
     completer.extend_database_names(osqlcliclient.get_databases())
 
 
