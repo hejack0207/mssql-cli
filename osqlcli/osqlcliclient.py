@@ -45,6 +45,7 @@ class OsqlCliClient(object):
             from osqlcli import osqlqueries_sqlite as osqlqueries
             self.conn=sqlite3.connect("/tmp/database")
 
+        self.conn.autocommit=True
         self.osqlqry = osqlqueries
         return "conn_str",None
 
@@ -77,7 +78,7 @@ class OsqlCliClient(object):
         rows = []
         if curs.description is None:
             colnames = []
-            self.conn.commit()
+            #self.conn.commit()
         else:
             colnames = [desc[0] for desc in curs.description]
             for row in curs.fetchall():
