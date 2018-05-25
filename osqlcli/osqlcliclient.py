@@ -74,10 +74,14 @@ class OsqlCliClient(object):
     def _execute_query(self, query):
         curs = self.conn.cursor()
         curs.execute(query)
-        colnames = [desc[0] for desc in curs.description]
         rows = []
-        for row in curs.fetchall():
-            rows.append(row)
+        if curs.description is None:
+            colnames = []
+            self.conn.commit()
+        else:
+            colnames = [desc[0] for desc in curs.description]
+            for row in curs.fetchall():
+                rows.append(row)
 
         yield rows, colnames, None, query, False
 
