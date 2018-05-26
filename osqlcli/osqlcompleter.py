@@ -614,7 +614,7 @@ class OsqlCompleter(Completer):
                             for t, c in cols if t.ref != lref)
         # For each fk from the left table, generate a join condition if
         # the other table is also in the scope
-        fks = ((fk, lcol.name) for lcol in lcols for fk in lcol.get_foreign_keys)
+        fks = ((fk, lcol.name) for lcol in lcols for fk in lcol.foreignkeys)
         for fk, lcol in fks:
             left = col(ltbl.schema, ltbl.name, lcol)
             child = col(fk.childschema, fk.childtable, fk.childcolumn)
