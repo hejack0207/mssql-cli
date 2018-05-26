@@ -549,7 +549,7 @@ class OsqlCompleter(Completer):
         joins = []
         # Iterate over FKs in existing tables to find potential joins
         fks = ((fk, rtbl, rcol) for rtbl, rcols in cols.items()
-               for rcol in rcols for fk in rcol.get_foreign_keys)
+               for rcol in rcols for fk in rcol.foreignkeys)
         col = namedtuple('col', 'schema tbl col')
         for fk, rtbl, rcol in fks:
             right = col(rtbl.schema, rtbl.name, rcol.name)
