@@ -74,12 +74,13 @@ def get_foreignkeys():
     :return: string
     """
     return """
-	SELECT c.owner             AS fk_table_schema,
-	  c.table_name             AS fk_table_name,
-	  ccc.COLUMN_NAME         AS fk_column_name,
-	  p.r_owner                AS referenced_table_schema,
+	SELECT 
+	  p.owner                AS referenced_table_schema,
 	  p.table_name             AS referenced_table_name,
-	  ccp.column_name   AS referenced_column_name
+	  ccp.column_name   AS referenced_column_name,
+          c.owner             AS fk_table_schema,
+	  c.table_name             AS fk_table_name,
+	  ccc.COLUMN_NAME         AS fk_column_name
 	FROM  all_constraints c,
 	  all_constraints p,
 	  all_cons_columns ccp,
