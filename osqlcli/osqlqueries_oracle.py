@@ -74,9 +74,18 @@ def get_foreignkeys():
     :return: string
     """
     return """
-	select p.owner AS fk_table_schema,p.table_name AS fk_table_name,'fk_column_name' AS fk_column_name,
-		p.r_owner AS referenced_table_schema,c.table_name AS referenced_table_name,'referenced_column_name' AS referenced_column_name
-	from all_constraints p, all_constraints c
-	where p.constraint_type='R'
-	and p.r_constraint_name = c.constraint_name
-	and c.constraint_type in ('P','U')"""
+	SELECT c.owner             AS fk_table_schema,
+	  c.table_name             AS fk_table_name,
+	  ccc.COLUMN_NAME         AS fk_column_name,
+	  p.r_owner                AS referenced_table_schema,
+	  p.table_name             AS referenced_table_name,
+	  ccp.column_name   AS referenced_column_name
+	FROM  all_constraints c,
+	  all_constraints p,
+	  all_cons_columns ccp,
+	  all_cons_columns ccc
+	WHERE c.constraint_type ='R'
+	AND c.r_constraint_name = p.constraint_name
+	AND p.constraint_type  IN ('P')
+	and c.constraint_name = ccc.constraint_name
+	and p.constraint_name = ccp.constraint_name"""
